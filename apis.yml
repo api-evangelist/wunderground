@@ -40,7 +40,7 @@ apis:
       - type: Documentation
         url: https://www.wunderground.com/member/api-keys
       - type: OpenAPI
-        url: https://developer.weather.com/docs/openapi/pws-observations-current-conditions-2-0
+        url: https://raw.githubusercontent.com/api-evangelist/wunderground/refs/heads/main/openapi/wunderground-pws-api.yml
 common:
   - type: Website
     url: https://www.wunderground.com

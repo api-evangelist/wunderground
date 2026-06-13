@@ -1,0 +1,254 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "wmo": "https://codes.wmo.int/def/",
+    "qudt": "http://qudt.org/vocab/unit/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "pws": "https://raw.githubusercontent.com/api-evangelist/wunderground/main/json-ld/wunderground-context.jsonld#",
+
+    "Observation": {
+      "@id": "schema:Observation",
+      "@type": "@id"
+    },
+    "WeatherStation": {
+      "@id": "schema:Place",
+      "@type": "@id"
+    },
+
+    "stationID": {
+      "@id": "schema:identifier",
+      "@type": "xsd:string"
+    },
+    "obsTimeUtc": {
+      "@id": "schema:observationDate",
+      "@type": "xsd:dateTime"
+    },
+    "obsTimeLocal": {
+      "@id": "pws:obsTimeLocal",
+      "@type": "xsd:string"
+    },
+    "neighborhood": {
+      "@id": "schema:addressLocality",
+      "@type": "xsd:string"
+    },
+    "country": {
+      "@id": "schema:addressCountry",
+      "@type": "xsd:string"
+    },
+    "lat": {
+      "@id": "schema:latitude",
+      "@type": "xsd:double"
+    },
+    "lon": {
+      "@id": "schema:longitude",
+      "@type": "xsd:double"
+    },
+    "epoch": {
+      "@id": "pws:epoch",
+      "@type": "xsd:integer"
+    },
+    "qcStatus": {
+      "@id": "pws:qualityControlStatus",
+      "@type": "xsd:integer"
+    },
+    "softwareType": {
+      "@id": "pws:softwareType",
+      "@type": "xsd:string"
+    },
+
+    "humidity": {
+      "@id": "wmo:humidity",
+      "@type": "xsd:number"
+    },
+    "winddir": {
+      "@id": "wmo:windDirection",
+      "@type": "xsd:integer"
+    },
+    "windDirectionCardinal": {
+      "@id": "pws:windDirectionCardinal",
+      "@type": "xsd:string"
+    },
+    "solarRadiation": {
+      "@id": "wmo:solarRadiation",
+      "@type": "xsd:number"
+    },
+    "uv": {
+      "@id": "pws:uvIndex",
+      "@type": "xsd:number"
+    },
+    "realtimeFrequency": {
+      "@id": "pws:realtimeFrequency",
+      "@type": "xsd:number"
+    },
+
+    "imperial": {
+      "@id": "pws:imperialMeasurements",
+      "@type": "@id"
+    },
+    "metric": {
+      "@id": "pws:metricMeasurements",
+      "@type": "@id"
+    },
+    "metric_si": {
+      "@id": "pws:metricSIMeasurements",
+      "@type": "@id"
+    },
+    "uk_hybrid": {
+      "@id": "pws:ukHybridMeasurements",
+      "@type": "@id"
+    },
+
+    "temp": {
+      "@id": "wmo:airTemperature",
+      "@type": "xsd:number"
+    },
+    "heatIndex": {
+      "@id": "wmo:heatIndex",
+      "@type": "xsd:number"
+    },
+    "dewpt": {
+      "@id": "wmo:dewPointTemperature",
+      "@type": "xsd:number"
+    },
+    "windChill": {
+      "@id": "wmo:windChillTemperature",
+      "@type": "xsd:number"
+    },
+    "windSpeed": {
+      "@id": "wmo:windSpeed",
+      "@type": "xsd:number"
+    },
+    "windGust": {
+      "@id": "wmo:windGustSpeed",
+      "@type": "xsd:number"
+    },
+    "pressure": {
+      "@id": "wmo:atmosphericPressure",
+      "@type": "xsd:number"
+    },
+    "precipRate": {
+      "@id": "wmo:precipitationRate",
+      "@type": "xsd:number"
+    },
+    "precipTotal": {
+      "@id": "wmo:precipitationAmount",
+      "@type": "xsd:number"
+    },
+    "elev": {
+      "@id": "schema:elevation",
+      "@type": "xsd:number"
+    },
+
+    "summaries": {
+      "@id": "pws:dailySummaries",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "observations": {
+      "@id": "pws:observations",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "tz": {
+      "@id": "schema:timezone",
+      "@type": "xsd:string"
+    },
+    "tempHigh": { "@id": "pws:temperatureHigh", "@type": "xsd:number" },
+    "tempLow": { "@id": "pws:temperatureLow", "@type": "xsd:number" },
+    "tempAvg": { "@id": "pws:temperatureAverage", "@type": "xsd:number" },
+    "windspeedHigh": { "@id": "pws:windSpeedHigh", "@type": "xsd:number" },
+    "windspeedLow": { "@id": "pws:windSpeedLow", "@type": "xsd:number" },
+    "windspeedAvg": { "@id": "pws:windSpeedAverage", "@type": "xsd:number" },
+    "windgustHigh": { "@id": "pws:windGustHigh", "@type": "xsd:number" },
+    "windgustLow": { "@id": "pws:windGustLow", "@type": "xsd:number" },
+    "windgustAvg": { "@id": "pws:windGustAverage", "@type": "xsd:number" },
+    "dewptHigh": { "@id": "pws:dewPointHigh", "@type": "xsd:number" },
+    "dewptLow": { "@id": "pws:dewPointLow", "@type": "xsd:number" },
+    "dewptAvg": { "@id": "pws:dewPointAverage", "@type": "xsd:number" },
+    "pressureMax": { "@id": "pws:pressureMax", "@type": "xsd:number" },
+    "pressureMin": { "@id": "pws:pressureMin", "@type": "xsd:number" },
+    "pressureTrend": { "@id": "pws:pressureTrend", "@type": "xsd:number" },
+
+    "ForecastDay": {
+      "@id": "schema:WeatherForecast",
+      "@type": "@id"
+    },
+    "temperatureMax": {
+      "@id": "schema:highTemperature",
+      "@type": "xsd:integer",
+      "@container": "@set"
+    },
+    "temperatureMin": {
+      "@id": "schema:lowTemperature",
+      "@type": "xsd:integer",
+      "@container": "@set"
+    },
+    "dayOfWeek": {
+      "@id": "schema:dayOfWeek",
+      "@type": "xsd:string",
+      "@container": "@set"
+    },
+    "narrative": {
+      "@id": "schema:description",
+      "@type": "xsd:string",
+      "@container": "@set"
+    },
+    "sunriseTimeLocal": {
+      "@id": "schema:sunriseTime",
+      "@type": "xsd:string",
+      "@container": "@set"
+    },
+    "sunsetTimeLocal": {
+      "@id": "schema:sunsetTime",
+      "@type": "xsd:string",
+      "@container": "@set"
+    },
+    "precipChance": {
+      "@id": "pws:precipitationProbability",
+      "@type": "xsd:integer",
+      "@container": "@set"
+    },
+    "qpf": {
+      "@id": "pws:quantitativePrecipForecast",
+      "@type": "xsd:number",
+      "@container": "@set"
+    },
+    "qpfSnow": {
+      "@id": "pws:quantitativeSnowForecast",
+      "@type": "xsd:number",
+      "@container": "@set"
+    },
+    "daypart": {
+      "@id": "pws:forecastDaypart",
+      "@type": "@id",
+      "@container": "@set"
+    },
+
+    "location": {
+      "@id": "schema:Place",
+      "@type": "@id"
+    },
+    "stationIdentifier": {
+      "@id": "schema:identifier",
+      "@type": "xsd:string",
+      "@container": "@set"
+    },
+    "distanceKm": {
+      "@id": "pws:distanceKilometers",
+      "@type": "xsd:number",
+      "@container": "@set"
+    },
+    "distanceMi": {
+      "@id": "pws:distanceMiles",
+      "@type": "xsd:number",
+      "@container": "@set"
+    },
+
+    "errors": {
+      "@id": "pws:errors",
+      "@type": "@id",
+      "@container": "@set"
+    }
+  }
+}

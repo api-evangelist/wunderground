@@ -1,0 +1,90 @@
+{
+  "calendarDayTemperatureMax": [62, 58, 65, 60, 55],
+  "calendarDayTemperatureMin": [48, 45, 50, 47, 42],
+  "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  "expirationTimeUtc": [1705370400, 1705456800, 1705543200, 1705629600, 1705716000],
+  "moonPhase": ["Waxing Gibbous", "Waxing Gibbous", "Full Moon", "Full Moon", "Waning Gibbous"],
+  "moonriseTimeLocal": [
+    "2024-01-15T14:45:00-0800",
+    "2024-01-16T15:30:00-0800",
+    "2024-01-17T16:20:00-0800",
+    "2024-01-18T17:15:00-0800",
+    "2024-01-19T18:10:00-0800"
+  ],
+  "moonsetTimeLocal": [
+    "2024-01-15T05:15:00-0800",
+    "2024-01-16T06:00:00-0800",
+    "2024-01-17T06:45:00-0800",
+    "2024-01-18T07:30:00-0800",
+    "2024-01-19T08:15:00-0800"
+  ],
+  "narrative": [
+    "Mostly cloudy. Highs in the low 60s and lows in the upper 40s.",
+    "Partly cloudy. Highs in the upper 50s and lows in the mid 40s.",
+    "Chance of rain. Highs in the mid 60s and lows in the lower 50s.",
+    "Mostly cloudy. Highs in the lower 60s and lows in the upper 40s.",
+    "Chance of rain. Highs in the mid 50s and lows in the lower 40s."
+  ],
+  "qpf": [0.05, 0.0, 0.32, 0.08, 0.25],
+  "qpfSnow": [0.0, 0.0, 0.0, 0.0, 0.0],
+  "sunriseTimeLocal": [
+    "2024-01-15T07:23:00-0800",
+    "2024-01-16T07:23:00-0800",
+    "2024-01-17T07:22:00-0800",
+    "2024-01-18T07:22:00-0800",
+    "2024-01-19T07:21:00-0800"
+  ],
+  "sunsetTimeLocal": [
+    "2024-01-15T17:12:00-0800",
+    "2024-01-16T17:13:00-0800",
+    "2024-01-17T17:14:00-0800",
+    "2024-01-18T17:15:00-0800",
+    "2024-01-19T17:16:00-0800"
+  ],
+  "temperatureMax": [62, 58, 65, 60, 55],
+  "temperatureMin": [48, 45, 50, 47, 42],
+  "validTimeLocal": [
+    "2024-01-15T07:00:00-0800",
+    "2024-01-16T07:00:00-0800",
+    "2024-01-17T07:00:00-0800",
+    "2024-01-18T07:00:00-0800",
+    "2024-01-19T07:00:00-0800"
+  ],
+  "validTimeUtc": [1705327200, 1705413600, 1705500000, 1705586400, 1705672800],
+  "daypart": [
+    {
+      "cloudCover": [40, 20, 55, 30, 65, 45, 70, 55, 75, 60],
+      "iconCode": [28, 31, 26, 33, 11, 29, 26, 33, 12, 27],
+      "narrative": [
+        "Mostly cloudy. High 62F. Winds W at 10 to 15 mph.",
+        "Clear. Low 48F. Winds W at 5 to 10 mph.",
+        "Partly cloudy. High 58F. Winds NW at 8 to 12 mph.",
+        "Partly cloudy. Low 45F. Winds light and variable.",
+        "Rain likely. High 65F. Winds SSW at 10 to 15 mph.",
+        "Cloudy with rain. Low 50F. Winds S at 8 to 12 mph.",
+        "Mostly cloudy. High 60F. Winds W at 10 to 15 mph.",
+        "Partly cloudy. Low 47F. Winds W at 5 to 10 mph.",
+        "Rain likely. High 55F. Winds S at 12 to 18 mph.",
+        "Cloudy with rain. Low 42F. Winds SSW at 8 to 12 mph."
+      ],
+      "precipChance": [20, 10, 15, 5, 70, 65, 30, 15, 65, 60],
+      "precipType": ["rain", "rain", "rain", "none", "rain", "rain", "rain", "rain", "rain", "rain"],
+      "temperature": [62, 48, 58, 45, 65, 50, 60, 47, 55, 42],
+      "windDirection": [270, 255, 315, 270, 200, 185, 270, 265, 195, 185],
+      "windDirectionCardinal": ["W", "WSW", "NW", "W", "SSW", "S", "W", "W", "SSW", "S"],
+      "windPhrase": [
+        "Winds W at 10 to 15 mph.",
+        "Winds W at 5 to 10 mph.",
+        "Winds NW at 8 to 12 mph.",
+        "Winds light and variable.",
+        "Winds SSW at 10 to 15 mph.",
+        "Winds S at 8 to 12 mph.",
+        "Winds W at 10 to 15 mph.",
+        "Winds W at 5 to 10 mph.",
+        "Winds S at 12 to 18 mph.",
+        "Winds SSW at 8 to 12 mph."
+      ],
+      "windSpeed": [12, 7, 10, 3, 12, 10, 12, 7, 15, 10]
+    }
+  ]
+}

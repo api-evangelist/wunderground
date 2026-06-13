@@ -1,0 +1,206 @@
+{
+  "vocabulary": {
+    "name": "Weather Underground PWS API Vocabulary",
+    "description": "Terminology and domain concepts used in the Weather Underground Personal Weather Station API.",
+    "version": "1.0.0",
+    "source": "https://www.wunderground.com/member/api-keys",
+    "terms": [
+      {
+        "term": "PWS",
+        "label": "Personal Weather Station",
+        "definition": "A privately owned, individually operated weather monitoring device that uploads data to the Weather Underground network. PWS owners contribute hyperlocal weather data in exchange for free API access.",
+        "category": "core"
+      },
+      {
+        "term": "stationID",
+        "label": "Station Identifier",
+        "definition": "A unique alphanumeric code assigned to each PWS upon registration with the Weather Underground network. Format is typically a country/state prefix followed by a city abbreviation and numeric suffix (e.g., KCASARAT1).",
+        "category": "identifier"
+      },
+      {
+        "term": "epoch",
+        "label": "Unix Epoch Timestamp",
+        "definition": "The number of seconds elapsed since 1970-01-01T00:00:00Z (UTC). Used to represent observation timestamps in a timezone-independent format.",
+        "category": "time"
+      },
+      {
+        "term": "obsTimeUtc",
+        "label": "Observation Time UTC",
+        "definition": "The date and time at which the observation was recorded, expressed in Coordinated Universal Time (UTC) using ISO 8601 format.",
+        "category": "time"
+      },
+      {
+        "term": "obsTimeLocal",
+        "label": "Observation Time Local",
+        "definition": "The date and time at which the observation was recorded, expressed in the local time zone of the weather station.",
+        "category": "time"
+      },
+      {
+        "term": "qcStatus",
+        "label": "Quality Control Status",
+        "definition": "A flag indicating whether the observation has passed automated quality control checks. A value of 1 indicates the data passed QC; values of -1 or 0 may indicate suspect or unverified data.",
+        "category": "quality"
+      },
+      {
+        "term": "temp",
+        "label": "Temperature",
+        "definition": "The current air temperature measured at the station, expressed in the unit system specified by the request (Fahrenheit for imperial, Celsius for metric and SI).",
+        "category": "atmosphere",
+        "units": {
+          "imperial": "°F",
+          "metric": "°C",
+          "metric_si": "°C",
+          "uk_hybrid": "°C"
+        }
+      },
+      {
+        "term": "dewpt",
+        "label": "Dew Point",
+        "definition": "The temperature at which the air must be cooled (at constant pressure and humidity) for condensation to occur. A measure of atmospheric moisture content.",
+        "category": "atmosphere",
+        "units": {
+          "imperial": "°F",
+          "metric": "°C"
+        }
+      },
+      {
+        "term": "heatIndex",
+        "label": "Heat Index",
+        "definition": "An index combining air temperature and relative humidity to produce an apparent temperature (what it 'feels like'). Relevant when temperatures exceed 80°F/27°C.",
+        "category": "atmosphere"
+      },
+      {
+        "term": "windChill",
+        "label": "Wind Chill",
+        "definition": "The perceived decrease in air temperature due to the flow of air. Calculated from actual temperature and wind speed; relevant in cold conditions.",
+        "category": "wind"
+      },
+      {
+        "term": "winddir",
+        "label": "Wind Direction",
+        "definition": "The direction from which the wind is blowing, expressed in meteorological degrees (0° = North, 90° = East, 180° = South, 270° = West).",
+        "category": "wind",
+        "units": "degrees"
+      },
+      {
+        "term": "windDirectionCardinal",
+        "label": "Wind Direction Cardinal",
+        "definition": "The wind direction expressed as a compass cardinal or intercardinal point abbreviation (N, NE, E, SE, S, SW, W, NW, and 8 additional intermediate points).",
+        "category": "wind"
+      },
+      {
+        "term": "windSpeed",
+        "label": "Wind Speed",
+        "definition": "The average speed of the wind over the observation interval.",
+        "category": "wind",
+        "units": {
+          "imperial": "mph",
+          "metric": "km/h",
+          "uk_hybrid": "mph"
+        }
+      },
+      {
+        "term": "windGust",
+        "label": "Wind Gust",
+        "definition": "The peak instantaneous wind speed measured during the observation interval, typically exceeding the average wind speed by a significant margin.",
+        "category": "wind",
+        "units": {
+          "imperial": "mph",
+          "metric": "km/h"
+        }
+      },
+      {
+        "term": "pressure",
+        "label": "Atmospheric Pressure",
+        "definition": "The force per unit area exerted by the atmosphere. Reported as station pressure, which has not been corrected for altitude.",
+        "category": "atmosphere",
+        "units": {
+          "imperial": "inHg",
+          "metric": "mbar",
+          "metric_si": "hPa"
+        }
+      },
+      {
+        "term": "humidity",
+        "label": "Relative Humidity",
+        "definition": "The ratio of the current water vapor content in the air to the maximum possible water vapor content at the same temperature, expressed as a percentage (0–100%).",
+        "category": "atmosphere",
+        "units": "%"
+      },
+      {
+        "term": "precipRate",
+        "label": "Precipitation Rate",
+        "definition": "The current intensity of precipitation expressed as an equivalent rainfall depth per hour. A value of 0 indicates no precipitation.",
+        "category": "precipitation",
+        "units": {
+          "imperial": "in/hr",
+          "metric": "mm/hr"
+        }
+      },
+      {
+        "term": "precipTotal",
+        "label": "Precipitation Total",
+        "definition": "The total accumulated precipitation since midnight local time (or since the last bucket tip reset). Resets each day at midnight.",
+        "category": "precipitation",
+        "units": {
+          "imperial": "in",
+          "metric": "mm"
+        }
+      },
+      {
+        "term": "solarRadiation",
+        "label": "Solar Radiation",
+        "definition": "The intensity of solar (shortwave) radiation reaching the surface, measured in watts per square meter (W/m²). Requires a dedicated solar radiation sensor.",
+        "category": "solar",
+        "units": "W/m²"
+      },
+      {
+        "term": "uv",
+        "label": "UV Index",
+        "definition": "The World Health Organization (WHO) standard measurement of the ultraviolet radiation level from the sun at a particular place and time. Scale ranges from 0 (low) to 11+ (extreme). Requires a UV sensor.",
+        "category": "solar",
+        "units": "UV Index"
+      },
+      {
+        "term": "elev",
+        "label": "Elevation",
+        "definition": "The height of the weather station above mean sea level. Used for pressure corrections and altitude-related calculations.",
+        "category": "location",
+        "units": {
+          "imperial": "ft",
+          "metric": "m"
+        }
+      },
+      {
+        "term": "units",
+        "label": "Unit System",
+        "definition": "The measurement system for numerical weather values. Valid options: 'e' (Imperial/English: °F, mph, inHg, in), 'm' (Metric: °C, km/h, mbar, mm), 's' (SI: °C, km/h, hPa, mm), 'h' (UK Hybrid: °C, mph, mbar, mm).",
+        "category": "request"
+      },
+      {
+        "term": "numericPrecision",
+        "label": "Numeric Precision",
+        "definition": "Optional request parameter. When set to 'decimal', numeric values are returned with decimal precision rather than rounded integers. Recommended for sensor data analysis.",
+        "category": "request"
+      },
+      {
+        "term": "geocode",
+        "label": "Geographic Coordinate",
+        "definition": "A comma-separated latitude and longitude pair used to specify a geographic location for forecast or location-search queries (e.g., '37.774,-122.419').",
+        "category": "location"
+      },
+      {
+        "term": "dailysummary",
+        "label": "Daily Summary",
+        "definition": "An aggregated record representing all observations from a single calendar day, including minimum, maximum, and average values for each measured quantity.",
+        "category": "data-type"
+      },
+      {
+        "term": "hyperlocal",
+        "label": "Hyperlocal Weather Data",
+        "definition": "Weather observations collected at a very precise geographic location, often within a residential area. Contrasted with official NWS/airport station data which may be miles away. PWS data is hyperlocal by definition.",
+        "category": "concept"
+      }
+    ]
+  }
+}

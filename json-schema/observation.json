@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/wunderground/main/json-schema/observation.json",
+  "title": "PWS Observation",
+  "description": "A single weather observation record from a Personal Weather Station in the Weather Underground network.",
+  "type": "object",
+  "properties": {
+    "stationID": {
+      "type": "string",
+      "description": "Unique identifier of the PWS station assigned by Weather Underground.",
+      "examples": ["KCASARAT1", "KGASEATT42"]
+    },
+    "obsTimeUtc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Observation timestamp in UTC (ISO 8601).",
+      "examples": ["2024-01-15T18:32:00Z"]
+    },
+    "obsTimeLocal": {
+      "type": "string",
+      "description": "Observation timestamp in the station's local time zone.",
+      "examples": ["2024-01-15 10:32:00"]
+    },
+    "neighborhood": {
+      "type": ["string", "null"],
+      "description": "Neighborhood or location name provided by the station owner.",
+      "examples": ["Downtown", "Hillside Gardens"]
+    },
+    "softwareType": {
+      "type": ["string", "null"],
+      "description": "Software or device used to upload observations to the network.",
+      "examples": ["WeatherBridge", "WeeWX", "Ecowitt"]
+    },
+    "country": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code of the station.",
+      "examples": ["US", "GB", "DE"]
+    },
+    "solarRadiation": {
+      "type": ["number", "null"],
+      "description": "Solar radiation intensity in watts per square meter (W/m²).",
+      "minimum": 0,
+      "examples": [320.5, 0.0]
+    },
+    "lon": {
+      "type": "number",
+      "format": "double",
+      "description": "Station longitude in decimal degrees (WGS84).",
+      "minimum": -180,
+      "maximum": 180,
+      "examples": [-122.419]
+    },
+    "lat": {
+      "type": "number",
+      "format": "double",
+      "description": "Station latitude in decimal degrees (WGS84).",
+      "minimum": -90,
+      "maximum": 90,
+      "examples": [37.774]
+    },
+    "uv": {
+      "type": ["number", "null"],
+      "description": "UV index value (0–11+ scale).",
+      "minimum": 0,
+      "examples": [3.0, 8.5]
+    },
+    "winddir": {
+      "type": ["integer", "null"],
+      "description": "Wind direction in meteorological degrees (0 = North, 90 = East, 180 = South, 270 = West).",
+      "minimum": 0,
+      "maximum": 360,
+      "examples": [270, 180, 45]
+    },
+    "windDirectionCardinal": {
+      "type": ["string", "null"],
+      "description": "Wind direction expressed as a compass cardinal or intercardinal point.",
+      "enum": ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", null],
+      "examples": ["W", "NNE"]
+    },
+    "humidity": {
+      "type": ["integer", "null"],
+      "description": "Relative humidity percentage.",
+      "minimum": 0,
+      "maximum": 100,
+      "examples": [68, 45, 92]
+    },
+    "epoch": {
+      "type": "integer",
+      "description": "Unix timestamp (seconds since 1970-01-01T00:00:00Z) of the observation.",
+      "examples": [1705343520]
+    },
+    "qcStatus": {
+      "type": "integer",
+      "description": "Quality control status flag. 1 indicates the observation passed QC checks.",
+      "enum": [-1, 0, 1],
+      "examples": [1]
+    },
+    "realtimeFrequency": {
+      "type": ["integer", "null"],
+      "description": "Realtime upload frequency in seconds, if the station uploads in realtime mode.",
+      "examples": [2.5, null]
+    },
+    "imperial": {
+      "$ref": "#/$defs/unitMeasurements",
+      "description": "Measurements in Imperial/US Customary units (°F, mph, inHg, in)."
+    },
+    "metric": {
+      "$ref": "#/$defs/unitMeasurements",
+      "description": "Measurements in metric units (°C, km/h, mbar, mm)."
+    },
+    "metric_si": {
+      "$ref": "#/$defs/unitMeasurements",
+      "description": "Measurements in SI metric units (°C, km/h, hPa, mm)."
+    },
+    "uk_hybrid": {
+      "$ref": "#/$defs/unitMeasurements",
+      "description": "Measurements in UK hybrid units (°C, mph, mbar, mm)."
+    }
+  },
+  "required": ["stationID", "obsTimeUtc", "epoch"],
+  "$defs": {
+    "unitMeasurements": {
+      "type": "object",
+      "description": "Weather measurements in a specific unit system.",
+      "properties": {
+        "temp": {
+          "type": ["number", "null"],
+          "description": "Air temperature.",
+          "examples": [55.0, 12.8]
+        },
+        "heatIndex": {
+          "type": ["number", "null"],
+          "description": "Apparent temperature accounting for humidity (feels-like).",
+          "examples": [55.0, 12.8]
+        },
+        "dewpt": {
+          "type": ["number", "null"],
+          "description": "Dew point temperature.",
+          "examples": [44.0, 6.7]
+        },
+        "windChill": {
+          "type": ["number", "null"],
+          "description": "Wind chill temperature (perceived temperature with wind effect).",
+          "examples": [51.0, 10.5]
+        },
+        "windSpeed": {
+          "type": ["number", "null"],
+          "description": "Average wind speed.",
+          "minimum": 0,
+          "examples": [8.0, 12.9]
+        },
+        "windGust": {
+          "type": ["number", "null"],
+          "description": "Peak wind gust speed.",
+          "minimum": 0,
+          "examples": [12.0, 19.3]
+        },
+        "pressure": {
+          "type": ["number", "null"],
+          "description": "Atmospheric pressure (inHg for imperial, mbar for metric).",
+          "minimum": 0,
+          "examples": [30.05, 1018.0]
+        },
+        "precipRate": {
+          "type": ["number", "null"],
+          "description": "Current precipitation rate per hour.",
+          "minimum": 0,
+          "examples": [0.0, 0.12]
+        },
+        "precipTotal": {
+          "type": ["number", "null"],
+          "description": "Accumulated daily precipitation total.",
+          "minimum": 0,
+          "examples": [0.12, 3.05]
+        },
+        "elev": {
+          "type": ["number", "null"],
+          "description": "Station elevation above sea level.",
+          "examples": [52.0, 15.85]
+        }
+      }
+    }
+  }
+}

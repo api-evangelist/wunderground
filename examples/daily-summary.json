@@ -1,0 +1,43 @@
+{
+  "summaries": [
+    {
+      "stationID": "KCASARAT1",
+      "tz": "America/Los_Angeles",
+      "obsTimeLocal": "2024-01-15 00:00:00",
+      "obsTimeUtc": "2024-01-15T08:00:00Z",
+      "epoch": 1705296000,
+      "lat": 37.774,
+      "lon": -122.419,
+      "humidity": {
+        "min": 45,
+        "max": 92,
+        "avg": 68
+      },
+      "imperial": {
+        "tempHigh": 62.0,
+        "tempLow": 48.0,
+        "tempAvg": 55.0,
+        "windspeedHigh": 18.0,
+        "windspeedLow": 0.0,
+        "windspeedAvg": 7.5,
+        "windgustHigh": 22.0,
+        "windgustLow": 0.0,
+        "windgustAvg": 10.0,
+        "dewptHigh": 52.0,
+        "dewptLow": 39.0,
+        "dewptAvg": 46.0,
+        "windchillHigh": 62.0,
+        "windchillLow": 44.0,
+        "windchillAvg": 53.0,
+        "heatindexHigh": 62.0,
+        "heatindexLow": 48.0,
+        "heatindexAvg": 55.0,
+        "pressureMax": 30.12,
+        "pressureMin": 29.98,
+        "pressureTrend": -0.05,
+        "precipRate": 0.25,
+        "precipTotal": 0.48
+      }
+    }
+  ]
+}
