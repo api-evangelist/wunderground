@@ -1,0 +1,55 @@
+name: Weather Underground API FinOps
+description: >
+  Weather Underground's PWS API is free for personal weather station
+  contributors, eliminating direct API spend. FinOps considerations centre
+  on opportunity cost (data volume constraints), downstream vendor costs, and
+  the boundary between free PWS access and paid Weather Company enterprise
+  offerings.
+cost_model:
+  type: free
+  currency: USD
+  monthly_base_cost: 0
+  notes: >
+    API keys are provided at no charge to registered PWS contributors.
+    No metered billing, no overage charges, and no subscription fee applies
+    to the wunderground.com PWS API tier.
+budget_considerations:
+  - item: PWS Hardware
+    description: >
+      One-time hardware cost for a personal weather station capable of uploading
+      data to Weather Underground (required prerequisite for API key eligibility).
+    estimated_range: $100 – $500 USD (one-time)
+  - item: API Call Headroom
+    description: >
+      Free tier cap of 1,500 calls/day (~62.5 calls/hour) covers light to
+      moderate polling use cases. Applications requiring higher volumes should
+      budget for The Weather Company enterprise API plans.
+    estimated_range: N/A for free tier; enterprise pricing via weathercompany.com
+  - item: Enterprise Weather Company API
+    description: >
+      For commercial or high-volume use cases, The Weather Company (owner of
+      Weather Underground) offers paid API access beyond the PWS contributor
+      tier. Costs negotiated directly with vendor.
+    url: https://www.weathercompany.com/weather-data-apis/
+    estimated_range: custom pricing
+cost_optimization:
+  - Cache API responses locally to reduce repeat identical calls within the
+    30-calls/minute and 1,500-calls/day window.
+  - For near-real-time monitoring, schedule polling at the station's update
+    interval (typically every 5–10 minutes) to avoid wasted quota on
+    unchanged data.
+  - Batch location lookups rather than issuing per-station location queries
+    to stay within daily limits.
+  - Monitor daily quota via the API Keys dashboard before deploying high-
+    frequency integrations.
+risks:
+  - type: access_risk
+    description: >
+      API access is conditional on maintaining an active, data-contributing
+      PWS registered with Weather Underground. If the station goes offline
+      or is deregistered, API key eligibility may be affected.
+  - type: vendor_risk
+    description: >
+      Weather Underground is owned by The Weather Company (Francisco Partners
+      as of 2024). Platform changes or policy updates could alter free-tier
+      terms without notice.

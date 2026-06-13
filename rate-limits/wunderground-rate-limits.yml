@@ -1,0 +1,27 @@
+name: Weather Underground API Rate Limits
+description: >
+  The Weather Underground PWS API enforces two rate limit thresholds per
+  API key. These limits apply to all endpoints under api.weather.com and
+  cannot be increased or waived. Exceeding either limit results in outdated
+  or missing data in the response rather than an HTTP error.
+url: https://www.mypws.de/knowledgebase.php?article=6
+limits:
+  - name: Daily Call Limit
+    scope: per API key per calendar day
+    value: 1500
+    unit: requests/day
+    enforcement: soft — stale or empty data returned on breach
+  - name: Per-Minute Rate Limit
+    scope: per API key per minute
+    value: 30
+    unit: requests/minute
+    enforcement: soft — stale or empty data returned on breach
+monitoring:
+  description: >
+    API key consumption can be monitored through the wunderground.com account
+    dashboard under Settings > API Keys.
+  url: https://www.wunderground.com/member/api-keys
+notes:
+  - Rate limits apply to all PWS API endpoints (observations, history, forecast, location).
+  - There are no burst allowances or overage fees; the service silently degrades.
+  - Commercial usage requiring higher limits must be directed to The Weather Company.

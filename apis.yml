@@ -1,0 +1,69 @@
+aid: wunderground
+name: Weather Underground
+description: >
+  Weather Underground operates a personal weather station network of 250,000+
+  stations worldwide, providing hyperlocal weather data via a REST API. The
+  PWS API (hosted at api.weather.com) offers authenticated access to current
+  conditions, historical observations, 5-day forecasts, and location lookup
+  for registered station contributors. API keys are free for PWS owners who
+  upload data to the network.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/wunderground/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+tags:
+  - Weather
+  - Personal Weather Stations
+  - Hyperlocal
+  - Observations
+  - Forecasts
+  - Historical Data
+  - REST API
+apis:
+  - name: Weather Underground PWS API
+    description: >
+      REST API for Personal Weather Station data hosted at api.weather.com.
+      Provides current conditions, daily summaries, hourly and daily historical
+      records, 5-day forecasts, and station location lookup. Access requires a
+      free API key issued to registered PWS contributors.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://www.wunderground.com/member/api-keys
+    baseURL: https://api.weather.com
+    tags:
+      - Weather
+      - Personal Weather Stations
+      - Observations
+      - Forecasts
+      - Historical
+    properties:
+      - type: Documentation
+        url: https://www.wunderground.com/member/api-keys
+      - type: OpenAPI
+        url: https://developer.weather.com/docs/openapi/pws-observations-current-conditions-2-0
+common:
+  - type: Website
+    url: https://www.wunderground.com
+  - type: Documentation
+    url: https://www.wunderground.com/member/api-keys
+  - type: GitHubOrg
+    url: https://github.com/topics/wunderground-api
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/wunderground-llc
+  - type: Blog
+    url: https://www.wunderground.com/blog
+  - type: Pricing
+    url: https://www.wunderground.com/member/api-keys
+  - type: StatusPage
+    url: https://uptime.com/wunderground.com
+  - type: X
+    url: https://x.com/wunderground
+  - type: Plans
+    url: plans/wunderground-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/wunderground-rate-limits.yml
+  - type: FinOps
+    url: finops/wunderground-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

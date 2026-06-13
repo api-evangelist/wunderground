@@ -1,0 +1,37 @@
+name: Weather Underground API Plans & Pricing
+description: >
+  Weather Underground provides free API access to registered Personal Weather
+  Station (PWS) contributors. The PWS API key is issued at no cost to station
+  owners who upload data to the Weather Underground network. There are no paid
+  tiers or packages; access is contingent on owning and actively contributing
+  data from a registered PWS.
+url: https://www.wunderground.com/member/api-keys
+plans:
+  - name: PWS Contributor (Free)
+    description: >
+      Free API access granted to owners of a Personal Weather Station
+      registered with Weather Underground. API keys are generated via the
+      account dashboard and are tied to the contributor's station.
+    price: 0
+    currency: USD
+    billing: none
+    features:
+      - Free PWS API key via wunderground.com account
+      - Access to PWS current conditions (PWSCurrentConditions)
+      - Access to PWS daily summary (PWSDailySummary7Day)
+      - Access to PWS recent history — 1 day and 7 day
+      - Access to PWS hourly, daily, and full history
+      - 5-day daily forecast (ForecastDaily)
+      - Location search by geocode, zip code, and station ID
+      - Response formats: JSON
+      - Unit support: imperial (e), metric (m), UK hybrid (h)
+      - Multi-language response support
+    limits:
+      calls_per_day: 1500
+      calls_per_minute: 30
+    requires_pws: true
+    notes: >
+      As of March 2019 Weather Underground discontinued API access for
+      non-PWS accounts. Only station contributors may obtain API keys.
+      Enterprise / commercial access to broader weather data is available
+      through The Weather Company (weathercompany.com) separately.
