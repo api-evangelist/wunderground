@@ -7,7 +7,7 @@ description: >
   conditions, historical observations, 5-day forecasts, and location lookup
   for registered station contributors. API keys are free for PWS owners who
   upload data to the network.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/wunderground/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -27,7 +27,7 @@ apis:
       Provides current conditions, daily summaries, hourly and daily historical
       records, 5-day forecasts, and station location lookup. Access requires a
       free API key issued to registered PWS contributors.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://www.wunderground.com/member/api-keys
     baseURL: https://api.weather.com
     tags:
