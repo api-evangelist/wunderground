@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/wunderground-pws-api.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - query
+schemes:
+- name: apiKey
+  type: apiKey
+  in: query
+  parameter: apiKey
+  description: API key issued to registered PWS contributors via https://www.wunderground.com/member/api-keys
+  sources:
+  - openapi/wunderground-pws-api.yml
