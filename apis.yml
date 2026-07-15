@@ -42,6 +42,8 @@ apis:
       - type: OpenAPI
         url: https://raw.githubusercontent.com/api-evangelist/wunderground/refs/heads/main/openapi/wunderground-pws-api.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/wunderground-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/wunderground-vulnerability-disclosure.yml
   - type: DomainSecurity
