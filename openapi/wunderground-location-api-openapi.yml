@@ -1,0 +1,168 @@
+openapi: 3.0.3
+info:
+  title: Weather Underground PWS Forecast Location API
+  description: 'REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.
+
+    '
+  version: 2.0.0
+  contact:
+    url: https://www.wunderground.com/member/api-keys
+  termsOfService: https://www.wunderground.com/member/api-keys
+  x-api-evangelist-ratings:
+    design: 7
+    documentation: 5
+    authentication: 7
+    openapi: 1
+servers:
+- url: https://api.weather.com
+  description: Weather Underground / The Weather Company API server
+security:
+- apiKey: []
+tags:
+- name: Location
+  description: PWS station location lookup
+paths:
+  /v3/location/near:
+    get:
+      operationId: getNearbyPWSLocations
+      summary: Find nearest active PWS stations
+      description: 'Returns a list of nearest active Personal Weather Stations for a given geographic coordinate. Useful for discovering available station IDs before querying observation data.
+
+        '
+      tags:
+      - Location
+      parameters:
+      - name: geocode
+        in: query
+        required: true
+        description: Latitude and longitude as a comma-separated pair
+        schema:
+          type: string
+          example: 37.774,-122.419
+      - name: product
+        in: query
+        required: true
+        description: Product type to search for (use "pws" for Personal Weather Stations)
+        schema:
+          type: string
+          enum:
+          - pws
+          example: pws
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Successful nearby PWS locations response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationNearResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    format:
+      name: format
+      in: query
+      required: false
+      description: Response format. Only JSON is currently supported.
+      schema:
+        type: string
+        enum:
+        - json
+        default: json
+  schemas:
+    ErrorResponse:
+      type: object
+      description: Error response from the API
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                    example: NOT-AUTHORIZED
+                  message:
+                    type: string
+                    description: Human-readable error message
+                    example: Not Authorized
+    LocationNearResponse:
+      type: object
+      description: Response containing nearby PWS station locations
+      properties:
+        location:
+          type: object
+          description: Location search result container
+          properties:
+            stationIdentifier:
+              type: array
+              items:
+                type: string
+              description: List of nearby PWS station identifiers
+              example:
+              - KCASARAT1
+              - KCAFREMO12
+            latitude:
+              type: array
+              items:
+                type: number
+              description: Latitude of each nearby station
+              example:
+              - 37.774
+              - 37.78
+            longitude:
+              type: array
+              items:
+                type: number
+              description: Longitude of each nearby station
+              example:
+              - -122.419
+              - -122.425
+            distanceKm:
+              type: array
+              items:
+                type: number
+              description: Distance to each station in kilometers
+              example:
+              - 0.5
+              - 1.2
+            distanceMi:
+              type: array
+              items:
+                type: number
+              description: Distance to each station in miles
+              example:
+              - 0.31
+              - 0.75
+  responses:
+    Unauthorized:
+      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: 'The requested station ID was not found or has no data for the specified date range.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: query
+      name: apiKey
+      description: 'API key issued to registered PWS contributors via https://www.wunderground.com/member/api-keys
+
+        '

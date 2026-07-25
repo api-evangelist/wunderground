@@ -1,0 +1,342 @@
+openapi: 3.0.3
+info:
+  title: Weather Underground PWS Forecast Observations API
+  description: 'REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.
+
+    '
+  version: 2.0.0
+  contact:
+    url: https://www.wunderground.com/member/api-keys
+  termsOfService: https://www.wunderground.com/member/api-keys
+  x-api-evangelist-ratings:
+    design: 7
+    documentation: 5
+    authentication: 7
+    openapi: 1
+servers:
+- url: https://api.weather.com
+  description: Weather Underground / The Weather Company API server
+security:
+- apiKey: []
+tags:
+- name: Observations
+  description: Current and real-time PWS observations
+paths:
+  /v2/pws/observations/current:
+    get:
+      operationId: getCurrentObservations
+      summary: Get current observations for a PWS station
+      description: 'Returns the current weather conditions observations for a specified Personal Weather Station. Includes temperature, humidity, wind, pressure, precipitation, UV index, and solar radiation.
+
+        '
+      tags:
+      - Observations
+      parameters:
+      - $ref: '#/components/parameters/stationId'
+      - $ref: '#/components/parameters/format'
+      - $ref: '#/components/parameters/units'
+      - $ref: '#/components/parameters/numericPrecision'
+      responses:
+        '200':
+          description: Successful current observations response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentObservationsResponse'
+              example:
+                observations:
+                - stationID: KCASARAT1
+                  obsTimeUtc: '2024-01-15T18:32:00Z'
+                  obsTimeLocal: '2024-01-15 10:32:00'
+                  neighborhood: Downtown
+                  softwareType: WeatherBridge
+                  country: US
+                  solarRadiation: 320.5
+                  lon: -122.419
+                  realtimeFrequency: null
+                  epoch: 1705343520
+                  lat: 37.774
+                  uv: 3.0
+                  winddir: 270
+                  humidity: 68
+                  qcStatus: 1
+                  imperial:
+                    temp: 55.0
+                    heatIndex: 55.0
+                    dewpt: 44.0
+                    windChill: 55.0
+                    windSpeed: 8.0
+                    windGust: 12.0
+                    pressure: 30.05
+                    precipRate: 0.0
+                    precipTotal: 0.0
+                    elev: 52.0
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v2/pws/observations/all/1day:
+    get:
+      operationId: getAllObservations1Day
+      summary: Get all observations for the current day
+      description: 'Returns all rapid-fire observation records for a specified Personal Weather Station for the current day (up to 1 day of data). Useful for tracking real-time conditions throughout the day.
+
+        '
+      tags:
+      - Observations
+      parameters:
+      - $ref: '#/components/parameters/stationId'
+      - $ref: '#/components/parameters/format'
+      - $ref: '#/components/parameters/units'
+      - $ref: '#/components/parameters/numericPrecision'
+      responses:
+        '200':
+          description: Successful response with all current day observations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObservationsListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    ObservationsListResponse:
+      type: object
+      description: Response containing a list of PWS observations over a time period
+      properties:
+        observations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Observation'
+          description: Array of observation records ordered by time
+    Observation:
+      type: object
+      description: A single weather observation record from a PWS station
+      properties:
+        stationID:
+          type: string
+          description: Unique identifier of the PWS station
+          example: KCASARAT1
+        obsTimeUtc:
+          type: string
+          format: date-time
+          description: Observation timestamp in UTC
+          example: '2024-01-15T18:32:00Z'
+        obsTimeLocal:
+          type: string
+          description: Observation timestamp in local station time
+          example: '2024-01-15 10:32:00'
+        neighborhood:
+          type: string
+          description: Neighborhood or location name for the station
+          example: Downtown
+        softwareType:
+          type: string
+          description: Software used to upload data to the network
+          example: WeatherBridge
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code of the station
+          example: US
+        solarRadiation:
+          type: number
+          description: Solar radiation intensity in W/m²
+          example: 320.5
+        lon:
+          type: number
+          format: double
+          description: Station longitude in decimal degrees
+          example: -122.419
+        lat:
+          type: number
+          format: double
+          description: Station latitude in decimal degrees
+          example: 37.774
+        uv:
+          type: number
+          description: UV index value
+          example: 3.0
+        winddir:
+          type: integer
+          description: Wind direction in degrees (0–360)
+          example: 270
+        windDirectionCardinal:
+          type: string
+          description: Wind direction as a compass cardinal or intercardinal point
+          example: W
+        humidity:
+          type: integer
+          description: Relative humidity percentage
+          example: 68
+        epoch:
+          type: integer
+          description: Unix timestamp of the observation
+          example: 1705343520
+        qcStatus:
+          type: integer
+          description: Quality control status flag (1 = passed QC)
+          example: 1
+        realtimeFrequency:
+          type: integer
+          nullable: true
+          description: Realtime upload frequency in seconds, if applicable
+          example: null
+        imperial:
+          $ref: '#/components/schemas/UnitMeasurements'
+        metric:
+          $ref: '#/components/schemas/UnitMeasurements'
+        uk_hybrid:
+          $ref: '#/components/schemas/UnitMeasurements'
+        metric_si:
+          $ref: '#/components/schemas/UnitMeasurements'
+    UnitMeasurements:
+      type: object
+      description: 'Measurement values scoped to the requested unit system. The property name matches the units parameter value (e.g., "imperial", "metric", "uk_hybrid", or "metric_si").
+
+        '
+      properties:
+        temp:
+          type: number
+          description: Air temperature
+          example: 55.0
+        heatIndex:
+          type: number
+          description: Apparent temperature accounting for humidity
+          example: 55.0
+        dewpt:
+          type: number
+          description: Dew point temperature
+          example: 44.0
+        windChill:
+          type: number
+          description: Wind chill temperature
+          example: 55.0
+        windSpeed:
+          type: number
+          description: Average wind speed
+          example: 8.0
+        windGust:
+          type: number
+          description: Peak wind gust speed
+          example: 12.0
+        pressure:
+          type: number
+          description: Atmospheric pressure (inHg for imperial, mbar for metric)
+          example: 30.05
+        precipRate:
+          type: number
+          description: Current precipitation rate per hour
+          example: 0.0
+        precipTotal:
+          type: number
+          description: Accumulated daily precipitation total
+          example: 0.12
+        elev:
+          type: number
+          description: Station elevation above sea level
+          example: 52.0
+    ErrorResponse:
+      type: object
+      description: Error response from the API
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                    example: NOT-AUTHORIZED
+                  message:
+                    type: string
+                    description: Human-readable error message
+                    example: Not Authorized
+    CurrentObservationsResponse:
+      type: object
+      description: Response containing current PWS observations
+      properties:
+        observations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Observation'
+          description: Array of current observation records (typically one item)
+  parameters:
+    format:
+      name: format
+      in: query
+      required: false
+      description: Response format. Only JSON is currently supported.
+      schema:
+        type: string
+        enum:
+        - json
+        default: json
+    numericPrecision:
+      name: numericPrecision
+      in: query
+      required: false
+      description: 'When set to "decimal", numeric values are returned with decimal precision instead of rounded integers.
+
+        '
+      schema:
+        type: string
+        enum:
+        - decimal
+        example: decimal
+    units:
+      name: units
+      in: query
+      required: false
+      description: 'Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)
+
+        '
+      schema:
+        type: string
+        enum:
+        - e
+        - m
+        - s
+        - h
+        default: m
+        example: e
+    stationId:
+      name: stationId
+      in: query
+      required: true
+      description: 'The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground''s PWS network.
+
+        '
+      schema:
+        type: string
+        example: KCASARAT1
+  responses:
+    Unauthorized:
+      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: 'The requested station ID was not found or has no data for the specified date range.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: query
+      name: apiKey
+      description: 'API key issued to registered PWS contributors via https://www.wunderground.com/member/api-keys
+
+        '
