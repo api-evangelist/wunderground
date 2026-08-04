@@ -1,0 +1,20 @@
+{
+  "provider": "wunderground",
+  "sources": [
+    "wunderground-forecast-api-openapi.yml",
+    "wunderground-historical-api-openapi.yml",
+    "wunderground-location-api-openapi.yml",
+    "wunderground-observations-api-openapi.yml"
+  ],
+  "outputs": [
+    "wunderground-forecast-api-openapi.yml",
+    "wunderground-historical-api-openapi.yml",
+    "wunderground-location-api-openapi.yml",
+    "wunderground-observations-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

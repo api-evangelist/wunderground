@@ -1,0 +1,954 @@
+openapi: 3.0.3
+info:
+  title: Weather Underground PWS API
+  description: >
+    REST API for Personal Weather Station (PWS) data provided by Weather Underground
+    (hosted at api.weather.com). Provides current conditions, daily summaries, hourly
+    and daily historical records, 5-day forecasts, and station location lookup.
+    Access requires a free API key issued to registered PWS contributors.
+  version: 2.0.0
+  contact:
+    url: https://www.wunderground.com/member/api-keys
+  termsOfService: https://www.wunderground.com/member/api-keys
+  x-api-evangelist-ratings:
+    design: 7
+    documentation: 5
+    authentication: 7
+    openapi: 1
+servers:
+  - url: https://api.weather.com
+    description: Weather Underground / The Weather Company API server
+security:
+  - apiKey: []
+tags:
+  - name: Observations
+    description: Current and real-time PWS observations
+  - name: Historical
+    description: Historical PWS observations and daily summaries
+  - name: Forecast
+    description: Weather forecasts based on PWS location
+  - name: Location
+    description: PWS station location lookup
+paths:
+  /v2/pws/observations/current:
+    get:
+      operationId: getCurrentObservations
+      summary: Get current observations for a PWS station
+      description: >
+        Returns the current weather conditions observations for a specified
+        Personal Weather Station. Includes temperature, humidity, wind, pressure,
+        precipitation, UV index, and solar radiation.
+      tags:
+        - Observations
+      parameters:
+        - $ref: '#/components/parameters/stationId'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/units'
+        - $ref: '#/components/parameters/numericPrecision'
+      responses:
+        '200':
+          description: Successful current observations response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentObservationsResponse'
+              example:
+                observations:
+                  - stationID: KCASARAT1
+                    obsTimeUtc: '2024-01-15T18:32:00Z'
+                    obsTimeLocal: '2024-01-15 10:32:00'
+                    neighborhood: Downtown
+                    softwareType: WeatherBridge
+                    country: US
+                    solarRadiation: 320.5
+                    lon: -122.419
+                    realtimeFrequency: null
+                    epoch: 1705343520
+                    lat: 37.774
+                    uv: 3.0
+                    winddir: 270
+                    humidity: 68
+                    qcStatus: 1
+                    imperial:
+                      temp: 55.0
+                      heatIndex: 55.0
+                      dewpt: 44.0
+                      windChill: 55.0
+                      windSpeed: 8.0
+                      windGust: 12.0
+                      pressure: 30.05
+                      precipRate: 0.0
+                      precipTotal: 0.0
+                      elev: 52.0
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v2/pws/observations/all/1day:
+    get:
+      operationId: getAllObservations1Day
+      summary: Get all observations for the current day
+      description: >
+        Returns all rapid-fire observation records for a specified Personal
+        Weather Station for the current day (up to 1 day of data). Useful for
+        tracking real-time conditions throughout the day.
+      tags:
+        - Observations
+      parameters:
+        - $ref: '#/components/parameters/stationId'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/units'
+        - $ref: '#/components/parameters/numericPrecision'
+      responses:
+        '200':
+          description: Successful response with all current day observations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObservationsListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v2/pws/observations/hourly/7day:
+    get:
+      operationId: getHourlyObservations7Day
+      summary: Get hourly observations for the past 7 days
+      description: >
+        Returns hourly observation records for a specified Personal Weather
+        Station over the past 7 days. Each record represents aggregated
+        observations for a one-hour period.
+      tags:
+        - Historical
+      parameters:
+        - $ref: '#/components/parameters/stationId'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/units'
+        - $ref: '#/components/parameters/numericPrecision'
+      responses:
+        '200':
+          description: Successful hourly observations response for 7 days
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObservationsListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v2/pws/dailysummary/7day:
+    get:
+      operationId: getDailySummary7Day
+      summary: Get daily summary observations for the past 7 days
+      description: >
+        Returns daily summary observation records for a specified Personal
+        Weather Station over the past 7 days. Each record aggregates all
+        observations from a single calendar day into min/max/average values.
+      tags:
+        - Historical
+      parameters:
+        - $ref: '#/components/parameters/stationId'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/units'
+        - $ref: '#/components/parameters/numericPrecision'
+      responses:
+        '200':
+          description: Successful daily summary response for 7 days
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailySummaryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v2/pws/history/all:
+    get:
+      operationId: getHistoryAllForDate
+      summary: Get all historical observations for a specific date
+      description: >
+        Returns all raw observation records for a specified Personal Weather
+        Station on a given historical date. Provides the full granularity of
+        data uploaded by the station for that date.
+      tags:
+        - Historical
+      parameters:
+        - $ref: '#/components/parameters/stationId'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/units'
+        - $ref: '#/components/parameters/numericPrecision'
+        - name: date
+          in: query
+          required: true
+          description: Date for historical observations in YYYYMMDD format
+          schema:
+            type: string
+            pattern: '^\d{8}$'
+            example: '20240115'
+      responses:
+        '200':
+          description: Successful historical all-observations response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObservationsListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v2/pws/history/daily:
+    get:
+      operationId: getHistoryDaily
+      summary: Get daily historical observations for a date range
+      description: >
+        Returns daily summary historical records for a specified Personal
+        Weather Station within a date range. Supports up to approximately
+        one month of daily summaries per request.
+      tags:
+        - Historical
+      parameters:
+        - $ref: '#/components/parameters/stationId'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/units'
+        - $ref: '#/components/parameters/numericPrecision'
+        - name: startDate
+          in: query
+          required: true
+          description: Start date of the range in YYYYMMDD format
+          schema:
+            type: string
+            pattern: '^\d{8}$'
+            example: '20240101'
+        - name: endDate
+          in: query
+          required: true
+          description: End date of the range in YYYYMMDD format
+          schema:
+            type: string
+            pattern: '^\d{8}$'
+            example: '20240131'
+      responses:
+        '200':
+          description: Successful daily historical observations response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailySummaryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v3/wx/forecast/daily/5day:
+    get:
+      operationId: get5DayForecast
+      summary: Get 5-day daily weather forecast
+      description: >
+        Returns a 5-day daily weather forecast for a location specified by
+        geocode (latitude and longitude). Typically used in conjunction with
+        PWS station coordinates obtained from the observations endpoint.
+      tags:
+        - Forecast
+      parameters:
+        - name: geocode
+          in: query
+          required: true
+          description: >
+            Latitude and longitude as a comma-separated pair (e.g., 37.774,-122.419)
+          schema:
+            type: string
+            example: '37.774,-122.419'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/units'
+        - name: language
+          in: query
+          required: false
+          description: >
+            Language code for forecast text (e.g., en-US, fr-FR)
+          schema:
+            type: string
+            default: en-US
+            example: en-US
+      responses:
+        '200':
+          description: Successful 5-day forecast response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v3/location/near:
+    get:
+      operationId: getNearbyPWSLocations
+      summary: Find nearest active PWS stations
+      description: >
+        Returns a list of nearest active Personal Weather Stations for a given
+        geographic coordinate. Useful for discovering available station IDs
+        before querying observation data.
+      tags:
+        - Location
+      parameters:
+        - name: geocode
+          in: query
+          required: true
+          description: Latitude and longitude as a comma-separated pair
+          schema:
+            type: string
+            example: '37.774,-122.419'
+        - name: product
+          in: query
+          required: true
+          description: Product type to search for (use "pws" for Personal Weather Stations)
+          schema:
+            type: string
+            enum:
+              - pws
+            example: pws
+        - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Successful nearby PWS locations response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationNearResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: query
+      name: apiKey
+      description: >
+        API key issued to registered PWS contributors via
+        https://www.wunderground.com/member/api-keys
+  parameters:
+    stationId:
+      name: stationId
+      in: query
+      required: true
+      description: >
+        The PWS station identifier (e.g., KCASARAT1). Station IDs are
+        assigned upon registration with Weather Underground's PWS network.
+      schema:
+        type: string
+        example: KCASARAT1
+    format:
+      name: format
+      in: query
+      required: false
+      description: Response format. Only JSON is currently supported.
+      schema:
+        type: string
+        enum:
+          - json
+        default: json
+    units:
+      name: units
+      in: query
+      required: false
+      description: >
+        Unit system for measurement values.
+        e = Imperial (English), m = Metric, s = SI (metric with Pa pressure),
+        h = Hybrid (UK)
+      schema:
+        type: string
+        enum:
+          - e
+          - m
+          - s
+          - h
+        default: m
+        example: e
+    numericPrecision:
+      name: numericPrecision
+      in: query
+      required: false
+      description: >
+        When set to "decimal", numeric values are returned with decimal
+        precision instead of rounded integers.
+      schema:
+        type: string
+        enum:
+          - decimal
+        example: decimal
+  schemas:
+    UnitMeasurements:
+      type: object
+      description: >
+        Measurement values scoped to the requested unit system. The property
+        name matches the units parameter value (e.g., "imperial", "metric",
+        "uk_hybrid", or "metric_si").
+      properties:
+        temp:
+          type: number
+          description: Air temperature
+          example: 55.0
+        heatIndex:
+          type: number
+          description: Apparent temperature accounting for humidity
+          example: 55.0
+        dewpt:
+          type: number
+          description: Dew point temperature
+          example: 44.0
+        windChill:
+          type: number
+          description: Wind chill temperature
+          example: 55.0
+        windSpeed:
+          type: number
+          description: Average wind speed
+          example: 8.0
+        windGust:
+          type: number
+          description: Peak wind gust speed
+          example: 12.0
+        pressure:
+          type: number
+          description: Atmospheric pressure (inHg for imperial, mbar for metric)
+          example: 30.05
+        precipRate:
+          type: number
+          description: Current precipitation rate per hour
+          example: 0.0
+        precipTotal:
+          type: number
+          description: Accumulated daily precipitation total
+          example: 0.12
+        elev:
+          type: number
+          description: Station elevation above sea level
+          example: 52.0
+    Observation:
+      type: object
+      description: A single weather observation record from a PWS station
+      properties:
+        stationID:
+          type: string
+          description: Unique identifier of the PWS station
+          example: KCASARAT1
+        obsTimeUtc:
+          type: string
+          format: date-time
+          description: Observation timestamp in UTC
+          example: '2024-01-15T18:32:00Z'
+        obsTimeLocal:
+          type: string
+          description: Observation timestamp in local station time
+          example: '2024-01-15 10:32:00'
+        neighborhood:
+          type: string
+          description: Neighborhood or location name for the station
+          example: Downtown
+        softwareType:
+          type: string
+          description: Software used to upload data to the network
+          example: WeatherBridge
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code of the station
+          example: US
+        solarRadiation:
+          type: number
+          description: Solar radiation intensity in W/m²
+          example: 320.5
+        lon:
+          type: number
+          format: double
+          description: Station longitude in decimal degrees
+          example: -122.419
+        lat:
+          type: number
+          format: double
+          description: Station latitude in decimal degrees
+          example: 37.774
+        uv:
+          type: number
+          description: UV index value
+          example: 3.0
+        winddir:
+          type: integer
+          description: Wind direction in degrees (0–360)
+          example: 270
+        windDirectionCardinal:
+          type: string
+          description: Wind direction as a compass cardinal or intercardinal point
+          example: W
+        humidity:
+          type: integer
+          description: Relative humidity percentage
+          example: 68
+        epoch:
+          type: integer
+          description: Unix timestamp of the observation
+          example: 1705343520
+        qcStatus:
+          type: integer
+          description: Quality control status flag (1 = passed QC)
+          example: 1
+        realtimeFrequency:
+          type: integer
+          nullable: true
+          description: Realtime upload frequency in seconds, if applicable
+          example: null
+        imperial:
+          $ref: '#/components/schemas/UnitMeasurements'
+        metric:
+          $ref: '#/components/schemas/UnitMeasurements'
+        uk_hybrid:
+          $ref: '#/components/schemas/UnitMeasurements'
+        metric_si:
+          $ref: '#/components/schemas/UnitMeasurements'
+    DailySummary:
+      type: object
+      description: >
+        A daily summary record aggregating all observations from a single
+        calendar day for a PWS station.
+      properties:
+        stationID:
+          type: string
+          description: Unique identifier of the PWS station
+          example: KCASARAT1
+        tz:
+          type: string
+          description: IANA timezone name of the station
+          example: America/Los_Angeles
+        obsTimeLocal:
+          type: string
+          description: Local date of the daily summary
+          example: '2024-01-15 00:00:00'
+        obsTimeUtc:
+          type: string
+          format: date-time
+          description: UTC date of the daily summary
+          example: '2024-01-15T08:00:00Z'
+        epoch:
+          type: integer
+          description: Unix timestamp for the summary period
+          example: 1705296000
+        lat:
+          type: number
+          format: double
+          description: Station latitude in decimal degrees
+          example: 37.774
+        lon:
+          type: number
+          format: double
+          description: Station longitude in decimal degrees
+          example: -122.419
+        humidity:
+          type: object
+          description: Humidity summary statistics
+          properties:
+            min:
+              type: integer
+              description: Minimum humidity percentage for the day
+              example: 45
+            max:
+              type: integer
+              description: Maximum humidity percentage for the day
+              example: 92
+            avg:
+              type: integer
+              description: Average humidity percentage for the day
+              example: 68
+        imperial:
+          $ref: '#/components/schemas/DailySummaryMeasurements'
+        metric:
+          $ref: '#/components/schemas/DailySummaryMeasurements'
+    DailySummaryMeasurements:
+      type: object
+      description: Daily summary measurements in the requested unit system
+      properties:
+        tempHigh:
+          type: number
+          description: Maximum temperature of the day
+          example: 62.0
+        tempLow:
+          type: number
+          description: Minimum temperature of the day
+          example: 48.0
+        tempAvg:
+          type: number
+          description: Average temperature of the day
+          example: 55.0
+        windspeedHigh:
+          type: number
+          description: Maximum wind speed of the day
+          example: 18.0
+        windspeedLow:
+          type: number
+          description: Minimum wind speed of the day
+          example: 0.0
+        windspeedAvg:
+          type: number
+          description: Average wind speed of the day
+          example: 7.5
+        windgustHigh:
+          type: number
+          description: Maximum wind gust of the day
+          example: 22.0
+        windgustLow:
+          type: number
+          description: Minimum wind gust of the day
+          example: 0.0
+        windgustAvg:
+          type: number
+          description: Average wind gust of the day
+          example: 10.0
+        dewptHigh:
+          type: number
+          description: Maximum dew point of the day
+          example: 52.0
+        dewptLow:
+          type: number
+          description: Minimum dew point of the day
+          example: 39.0
+        dewptAvg:
+          type: number
+          description: Average dew point of the day
+          example: 46.0
+        windchillHigh:
+          type: number
+          description: Maximum wind chill of the day
+          example: 62.0
+        windchillLow:
+          type: number
+          description: Minimum wind chill of the day
+          example: 44.0
+        windchillAvg:
+          type: number
+          description: Average wind chill of the day
+          example: 53.0
+        heatindexHigh:
+          type: number
+          description: Maximum heat index of the day
+          example: 62.0
+        heatindexLow:
+          type: number
+          description: Minimum heat index of the day
+          example: 48.0
+        heatindexAvg:
+          type: number
+          description: Average heat index of the day
+          example: 55.0
+        pressureMax:
+          type: number
+          description: Maximum atmospheric pressure of the day
+          example: 30.12
+        pressureMin:
+          type: number
+          description: Minimum atmospheric pressure of the day
+          example: 29.98
+        pressureTrend:
+          type: number
+          description: Pressure trend over the day
+          example: -0.05
+        precipRate:
+          type: number
+          description: Maximum precipitation rate of the day
+          example: 0.25
+        precipTotal:
+          type: number
+          description: Total accumulated precipitation for the day
+          example: 0.48
+    ForecastDaypart:
+      type: object
+      description: Forecast data for a specific day part (day or night)
+      properties:
+        cloudCover:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Cloud cover percentage for each day part
+          example: [40, 20, 55, 30]
+        iconCode:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Weather icon code for each day part
+          example: [28, 31, 26, 33]
+        iconCodeExtend:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Extended icon code for each day part
+        narrative:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: Text narrative forecast for each day part
+          example: ['Mostly cloudy. High 62F.', 'Clear. Low 48F.']
+        precipChance:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Probability of precipitation percentage for each day part
+          example: [20, 10, 40, 15]
+        precipType:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: Type of precipitation expected for each day part
+          example: ['rain', 'none']
+        temperature:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Temperature for each day part
+          example: [62, 48, 58, 45]
+        windDirection:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Wind direction in degrees for each day part
+          example: [270, 250]
+        windDirectionCardinal:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: Cardinal wind direction for each day part
+          example: ['W', 'WSW']
+        windPhrase:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: Text description of wind conditions for each day part
+          example: ['Winds W at 10 to 15 mph.']
+        windSpeed:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Wind speed for each day part
+          example: [12, 8]
+    ForecastResponse:
+      type: object
+      description: 5-day daily weather forecast response
+      properties:
+        calendarDayTemperatureMax:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Maximum calendar day temperatures for each day
+          example: [62, 58, 65, 60, 55]
+        calendarDayTemperatureMin:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Minimum calendar day temperatures for each day
+          example: [48, 45, 50, 47, 42]
+        dayOfWeek:
+          type: array
+          items:
+            type: string
+          description: Day of week names for each forecast day
+          example: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+        expirationTimeUtc:
+          type: array
+          items:
+            type: integer
+          description: Unix timestamps when each day's forecast expires
+        moonPhase:
+          type: array
+          items:
+            type: string
+          description: Moon phase description for each day
+          example: ['Waxing Gibbous']
+        moonriseTimeLocal:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: Local moonrise time for each day
+        moonsetTimeLocal:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: Local moonset time for each day
+        narrative:
+          type: array
+          items:
+            type: string
+          description: Overall narrative forecast text for each day
+          example: ['Mostly cloudy. Highs in the low 60s.']
+        qpf:
+          type: array
+          items:
+            type: number
+            nullable: true
+          description: Quantitative precipitation forecast for each day
+          example: [0.1, 0.0, 0.25, 0.05, 0.0]
+        qpfSnow:
+          type: array
+          items:
+            type: number
+            nullable: true
+          description: Quantitative snow precipitation forecast for each day
+          example: [0.0, 0.0, 0.0, 0.0, 0.0]
+        sunriseTimeLocal:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: Local sunrise time for each day
+          example: ['2024-01-15T07:23:00-0800']
+        sunsetTimeLocal:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: Local sunset time for each day
+          example: ['2024-01-15T17:12:00-0800']
+        temperatureMax:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Maximum temperature for each forecast day
+          example: [62, 58, 65, 60, 55]
+        temperatureMin:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Minimum temperature for each forecast day
+          example: [48, 45, 50, 47, 42]
+        validTimeLocal:
+          type: array
+          items:
+            type: string
+          description: Local valid time for each forecast day
+          example: ['2024-01-15T07:00:00-0800']
+        validTimeUtc:
+          type: array
+          items:
+            type: integer
+          description: Unix timestamps for valid time of each forecast day
+          example: [1705327200]
+        daypart:
+          type: array
+          items:
+            $ref: '#/components/schemas/ForecastDaypart'
+          description: Detailed forecast data for each day part (day/night pairs)
+    CurrentObservationsResponse:
+      type: object
+      description: Response containing current PWS observations
+      properties:
+        observations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Observation'
+          description: Array of current observation records (typically one item)
+    ObservationsListResponse:
+      type: object
+      description: Response containing a list of PWS observations over a time period
+      properties:
+        observations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Observation'
+          description: Array of observation records ordered by time
+    DailySummaryResponse:
+      type: object
+      description: Response containing daily summary PWS observations
+      properties:
+        summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailySummary'
+          description: Array of daily summary records
+    LocationNearResponse:
+      type: object
+      description: Response containing nearby PWS station locations
+      properties:
+        location:
+          type: object
+          description: Location search result container
+          properties:
+            stationIdentifier:
+              type: array
+              items:
+                type: string
+              description: List of nearby PWS station identifiers
+              example: ['KCASARAT1', 'KCAFREMO12']
+            latitude:
+              type: array
+              items:
+                type: number
+              description: Latitude of each nearby station
+              example: [37.774, 37.780]
+            longitude:
+              type: array
+              items:
+                type: number
+              description: Longitude of each nearby station
+              example: [-122.419, -122.425]
+            distanceKm:
+              type: array
+              items:
+                type: number
+              description: Distance to each station in kilometers
+              example: [0.5, 1.2]
+            distanceMi:
+              type: array
+              items:
+                type: number
+              description: Distance to each station in miles
+              example: [0.31, 0.75]
+    ErrorResponse:
+      type: object
+      description: Error response from the API
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                    example: NOT-AUTHORIZED
+                  message:
+                    type: string
+                    description: Human-readable error message
+                    example: Not Authorized
+  responses:
+    Unauthorized:
+      description: >
+        Authentication failed. The API key is missing, invalid, or not
+        authorized for the requested station or endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: >
+        The requested station ID was not found or has no data for the
+        specified date range.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
