@@ -1,0 +1,192 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Weather Underground PWS Forecast Historical API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Historical",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get hourly observations for the past 7 days",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.weather.com/v2/pws/observations/hourly/7day",
+            "params": [
+              {
+                "name": "stationId",
+                "value": "",
+                "type": "query",
+                "description": "The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground's PWS network.\n"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. Only JSON is currently supported."
+              },
+              {
+                "name": "units",
+                "value": "",
+                "type": "query",
+                "description": "Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)\n"
+              },
+              {
+                "name": "numericPrecision",
+                "value": "",
+                "type": "query",
+                "description": "When set to \"decimal\", numeric values are returned with decimal precision instead of rounded integers.\n"
+              }
+            ]
+          },
+          "docs": "Returns hourly observation records for a specified Personal Weather Station over the past 7 days. Each record represents aggregated observations for a one-hour period.\n"
+        },
+        {
+          "info": {
+            "name": "Get daily summary observations for the past 7 days",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.weather.com/v2/pws/dailysummary/7day",
+            "params": [
+              {
+                "name": "stationId",
+                "value": "",
+                "type": "query",
+                "description": "The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground's PWS network.\n"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. Only JSON is currently supported."
+              },
+              {
+                "name": "units",
+                "value": "",
+                "type": "query",
+                "description": "Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)\n"
+              },
+              {
+                "name": "numericPrecision",
+                "value": "",
+                "type": "query",
+                "description": "When set to \"decimal\", numeric values are returned with decimal precision instead of rounded integers.\n"
+              }
+            ]
+          },
+          "docs": "Returns daily summary observation records for a specified Personal Weather Station over the past 7 days. Each record aggregates all observations from a single calendar day into min/max/average values.\n"
+        },
+        {
+          "info": {
+            "name": "Get all historical observations for a specific date",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.weather.com/v2/pws/history/all",
+            "params": [
+              {
+                "name": "stationId",
+                "value": "",
+                "type": "query",
+                "description": "The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground's PWS network.\n"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. Only JSON is currently supported."
+              },
+              {
+                "name": "units",
+                "value": "",
+                "type": "query",
+                "description": "Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)\n"
+              },
+              {
+                "name": "numericPrecision",
+                "value": "",
+                "type": "query",
+                "description": "When set to \"decimal\", numeric values are returned with decimal precision instead of rounded integers.\n"
+              },
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "Date for historical observations in YYYYMMDD format"
+              }
+            ]
+          },
+          "docs": "Returns all raw observation records for a specified Personal Weather Station on a given historical date. Provides the full granularity of data uploaded by the station for that date.\n"
+        },
+        {
+          "info": {
+            "name": "Get daily historical observations for a date range",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.weather.com/v2/pws/history/daily",
+            "params": [
+              {
+                "name": "stationId",
+                "value": "",
+                "type": "query",
+                "description": "The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground's PWS network.\n"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. Only JSON is currently supported."
+              },
+              {
+                "name": "units",
+                "value": "",
+                "type": "query",
+                "description": "Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)\n"
+              },
+              {
+                "name": "numericPrecision",
+                "value": "",
+                "type": "query",
+                "description": "When set to \"decimal\", numeric values are returned with decimal precision instead of rounded integers.\n"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the range in YYYYMMDD format"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date of the range in YYYYMMDD format"
+              }
+            ]
+          },
+          "docs": "Returns daily summary historical records for a specified Personal Weather Station within a date range. Supports up to approximately one month of daily summaries per request.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

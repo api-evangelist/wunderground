@@ -1,0 +1,293 @@
+{
+  "item": [
+    {
+      "id": "3bc8fd37-78f1-4948-b671-8ce807c02d6f",
+      "name": "Forecast",
+      "description": {
+        "content": "Weather forecasts based on PWS location",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0b4e63b2-35a8-4351-a449-82b9a82fbe76",
+          "name": "Get 5-day daily weather forecast",
+          "request": {
+            "name": "Get 5-day daily weather forecast",
+            "description": {
+              "content": "Returns a 5-day daily weather forecast for a location specified by geocode (latitude and longitude). Typically used in conjunction with PWS station coordinates obtained from the observations endpoint.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "wx",
+                "forecast",
+                "daily",
+                "5day"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "geocode",
+                  "value": "<string>",
+                  "description": "(Required) Latitude and longitude as a comma-separated pair (e.g., 37.774,-122.419)\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "json",
+                  "description": "Response format. Only JSON is currently supported."
+                },
+                {
+                  "disabled": false,
+                  "key": "units",
+                  "value": "m",
+                  "description": "Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "language",
+                  "value": "en-US",
+                  "description": "Language code for forecast text (e.g., en-US, fr-FR)\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "aa9c3ff7-d3ae-4f3c-b2a7-b50d46a05a43",
+              "name": "Successful 5-day forecast response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "wx",
+                    "forecast",
+                    "daily",
+                    "5day"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "geocode",
+                      "value": "37.774,-122.419"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "units",
+                      "value": "e"
+                    },
+                    {
+                      "key": "language",
+                      "value": "en-US"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"calendarDayTemperatureMax\": [\n    62,\n    58,\n    65,\n    60,\n    55\n  ],\n  \"calendarDayTemperatureMin\": [\n    48,\n    45,\n    50,\n    47,\n    42\n  ],\n  \"dayOfWeek\": [\n    \"Monday\",\n    \"Tuesday\",\n    \"Wednesday\",\n    \"Thursday\",\n    \"Friday\"\n  ],\n  \"expirationTimeUtc\": [\n    6740,\n    2135\n  ],\n  \"moonPhase\": [\n    \"Waxing Gibbous\"\n  ],\n  \"moonriseTimeLocal\": [\n    \"string\",\n    \"string\"\n  ],\n  \"moonsetTimeLocal\": [\n    \"string\",\n    \"string\"\n  ],\n  \"narrative\": [\n    \"Mostly cloudy. Highs in the low 60s.\"\n  ],\n  \"qpf\": [\n    0.1,\n    0,\n    0.25,\n    0.05,\n    0\n  ],\n  \"qpfSnow\": [\n    0,\n    0,\n    0,\n    0,\n    0\n  ],\n  \"sunriseTimeLocal\": [\n    \"2024-01-15T07:23:00-0800\"\n  ],\n  \"sunsetTimeLocal\": [\n    \"2024-01-15T17:12:00-0800\"\n  ],\n  \"temperatureMax\": [\n    62,\n    58,\n    65,\n    60,\n    55\n  ],\n  \"temperatureMin\": [\n    48,\n    45,\n    50,\n    47,\n    42\n  ],\n  \"validTimeLocal\": [\n    \"2024-01-15T07:00:00-0800\"\n  ],\n  \"validTimeUtc\": [\n    1705327200\n  ],\n  \"daypart\": [\n    {\n      \"cloudCover\": [\n        40,\n        20,\n        55,\n        30\n      ],\n      \"iconCode\": [\n        28,\n        31,\n        26,\n        33\n      ],\n      \"iconCodeExtend\": [\n        7547,\n        8881\n      ],\n      \"narrative\": [\n        \"Mostly cloudy. High 62F.\",\n        \"Clear. Low 48F.\"\n      ],\n      \"precipChance\": [\n        20,\n        10,\n        40,\n        15\n      ],\n      \"precipType\": [\n        \"rain\",\n        \"none\"\n      ],\n      \"temperature\": [\n        62,\n        48,\n        58,\n        45\n      ],\n      \"windDirection\": [\n        270,\n        250\n      ],\n      \"windDirectionCardinal\": [\n        \"W\",\n        \"WSW\"\n      ],\n      \"windPhrase\": [\n        \"Winds W at 10 to 15 mph.\"\n      ],\n      \"windSpeed\": [\n        12,\n        8\n      ]\n    },\n    {\n      \"cloudCover\": [\n        40,\n        20,\n        55,\n        30\n      ],\n      \"iconCode\": [\n        28,\n        31,\n        26,\n        33\n      ],\n      \"iconCodeExtend\": [\n        9752,\n        7742\n      ],\n      \"narrative\": [\n        \"Mostly cloudy. High 62F.\",\n        \"Clear. Low 48F.\"\n      ],\n      \"precipChance\": [\n        20,\n        10,\n        40,\n        15\n      ],\n      \"precipType\": [\n        \"rain\",\n        \"none\"\n      ],\n      \"temperature\": [\n        62,\n        48,\n        58,\n        45\n      ],\n      \"windDirection\": [\n        270,\n        250\n      ],\n      \"windDirectionCardinal\": [\n        \"W\",\n        \"WSW\"\n      ],\n      \"windPhrase\": [\n        \"Winds W at 10 to 15 mph.\"\n      ],\n      \"windSpeed\": [\n        12,\n        8\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "072649aa-b9ce-4350-8172-fa0463b0619c",
+              "name": "Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "wx",
+                    "forecast",
+                    "daily",
+                    "5day"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "geocode",
+                      "value": "37.774,-122.419"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "units",
+                      "value": "e"
+                    },
+                    {
+                      "key": "language",
+                      "value": "en-US"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    },\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a2fde54-80f9-4703-b214-527c136d1076",
+              "name": "The requested station ID was not found or has no data for the specified date range.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "wx",
+                    "forecast",
+                    "daily",
+                    "5day"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "geocode",
+                      "value": "37.774,-122.419"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "units",
+                      "value": "e"
+                    },
+                    {
+                      "key": "language",
+                      "value": "en-US"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    },\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.weather.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "841f94ec-6cf3-4311-8d32-8f8eb074080f",
+    "name": "Weather Underground PWS Forecast API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.\n",
+      "type": "text/plain"
+    }
+  }
+}

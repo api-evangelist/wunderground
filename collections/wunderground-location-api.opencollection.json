@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Weather Underground PWS Forecast Location API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Location",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find nearest active PWS stations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.weather.com/v3/location/near",
+            "params": [
+              {
+                "name": "geocode",
+                "value": "",
+                "type": "query",
+                "description": "Latitude and longitude as a comma-separated pair"
+              },
+              {
+                "name": "product",
+                "value": "",
+                "type": "query",
+                "description": "Product type to search for (use \"pws\" for Personal Weather Stations)"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. Only JSON is currently supported."
+              }
+            ]
+          },
+          "docs": "Returns a list of nearest active Personal Weather Stations for a given geographic coordinate. Useful for discovering available station IDs before querying observation data.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,100 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Weather Underground PWS Forecast Observations API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Observations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get current observations for a PWS station",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.weather.com/v2/pws/observations/current",
+            "params": [
+              {
+                "name": "stationId",
+                "value": "",
+                "type": "query",
+                "description": "The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground's PWS network.\n"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. Only JSON is currently supported."
+              },
+              {
+                "name": "units",
+                "value": "",
+                "type": "query",
+                "description": "Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)\n"
+              },
+              {
+                "name": "numericPrecision",
+                "value": "",
+                "type": "query",
+                "description": "When set to \"decimal\", numeric values are returned with decimal precision instead of rounded integers.\n"
+              }
+            ]
+          },
+          "docs": "Returns the current weather conditions observations for a specified Personal Weather Station. Includes temperature, humidity, wind, pressure, precipitation, UV index, and solar radiation.\n"
+        },
+        {
+          "info": {
+            "name": "Get all observations for the current day",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.weather.com/v2/pws/observations/all/1day",
+            "params": [
+              {
+                "name": "stationId",
+                "value": "",
+                "type": "query",
+                "description": "The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground's PWS network.\n"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. Only JSON is currently supported."
+              },
+              {
+                "name": "units",
+                "value": "",
+                "type": "query",
+                "description": "Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)\n"
+              },
+              {
+                "name": "numericPrecision",
+                "value": "",
+                "type": "query",
+                "description": "When set to \"decimal\", numeric values are returned with decimal precision instead of rounded integers.\n"
+              }
+            ]
+          },
+          "docs": "Returns all rapid-fire observation records for a specified Personal Weather Station for the current day (up to 1 day of data). Useful for tracking real-time conditions throughout the day.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

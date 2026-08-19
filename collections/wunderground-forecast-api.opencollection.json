@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Weather Underground PWS Forecast API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Forecast",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get 5-day daily weather forecast",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.weather.com/v3/wx/forecast/daily/5day",
+            "params": [
+              {
+                "name": "geocode",
+                "value": "",
+                "type": "query",
+                "description": "Latitude and longitude as a comma-separated pair (e.g., 37.774,-122.419)\n"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. Only JSON is currently supported."
+              },
+              {
+                "name": "units",
+                "value": "",
+                "type": "query",
+                "description": "Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)\n"
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "query",
+                "description": "Language code for forecast text (e.g., en-US, fr-FR)\n"
+              }
+            ]
+          },
+          "docs": "Returns a 5-day daily weather forecast for a location specified by geocode (latitude and longitude). Typically used in conjunction with PWS station coordinates obtained from the observations endpoint.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

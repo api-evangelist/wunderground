@@ -1,0 +1,533 @@
+{
+  "item": [
+    {
+      "id": "db028f71-002b-4a2e-9d75-2a78fd650fbb",
+      "name": "Observations",
+      "description": {
+        "content": "Current and real-time PWS observations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e1e3228b-5914-4dd5-944b-22651e76b624",
+          "name": "Get current observations for a PWS station",
+          "request": {
+            "name": "Get current observations for a PWS station",
+            "description": {
+              "content": "Returns the current weather conditions observations for a specified Personal Weather Station. Includes temperature, humidity, wind, pressure, precipitation, UV index, and solar radiation.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "pws",
+                "observations",
+                "current"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "stationId",
+                  "value": "<string>",
+                  "description": "(Required) The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground's PWS network.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "json",
+                  "description": "Response format. Only JSON is currently supported."
+                },
+                {
+                  "disabled": false,
+                  "key": "units",
+                  "value": "m",
+                  "description": "Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "numericPrecision",
+                  "value": "<string>",
+                  "description": "When set to \"decimal\", numeric values are returned with decimal precision instead of rounded integers.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "51ebf6e8-5103-4c3b-8ff0-d764c09d2ea1",
+              "name": "Successful current observations response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "pws",
+                    "observations",
+                    "current"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "stationId",
+                      "value": "KCASARAT1"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "units",
+                      "value": "e"
+                    },
+                    {
+                      "key": "numericPrecision",
+                      "value": "decimal"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"observations\": [\n    {\n      \"stationID\": \"KCASARAT1\",\n      \"obsTimeUtc\": \"2024-01-15T18:32:00Z\",\n      \"obsTimeLocal\": \"2024-01-15 10:32:00\",\n      \"neighborhood\": \"Downtown\",\n      \"softwareType\": \"WeatherBridge\",\n      \"country\": \"US\",\n      \"solarRadiation\": 320.5,\n      \"lon\": -122.419,\n      \"realtimeFrequency\": null,\n      \"epoch\": 1705343520,\n      \"lat\": 37.774,\n      \"uv\": 3,\n      \"winddir\": 270,\n      \"humidity\": 68,\n      \"qcStatus\": 1,\n      \"imperial\": {\n        \"temp\": 55,\n        \"heatIndex\": 55,\n        \"dewpt\": 44,\n        \"windChill\": 55,\n        \"windSpeed\": 8,\n        \"windGust\": 12,\n        \"pressure\": 30.05,\n        \"precipRate\": 0,\n        \"precipTotal\": 0,\n        \"elev\": 52\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bfa32955-d69b-40f1-9cae-333c93c3c907",
+              "name": "Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "pws",
+                    "observations",
+                    "current"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "stationId",
+                      "value": "KCASARAT1"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "units",
+                      "value": "e"
+                    },
+                    {
+                      "key": "numericPrecision",
+                      "value": "decimal"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    },\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c846f911-d6f9-461e-be58-6ad5d3a17a5b",
+              "name": "The requested station ID was not found or has no data for the specified date range.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "pws",
+                    "observations",
+                    "current"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "stationId",
+                      "value": "KCASARAT1"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "units",
+                      "value": "e"
+                    },
+                    {
+                      "key": "numericPrecision",
+                      "value": "decimal"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    },\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ae1b3ef8-8982-44ac-85a9-b149c038d7f9",
+          "name": "Get all observations for the current day",
+          "request": {
+            "name": "Get all observations for the current day",
+            "description": {
+              "content": "Returns all rapid-fire observation records for a specified Personal Weather Station for the current day (up to 1 day of data). Useful for tracking real-time conditions throughout the day.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "pws",
+                "observations",
+                "all",
+                "1day"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "stationId",
+                  "value": "<string>",
+                  "description": "(Required) The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground's PWS network.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "json",
+                  "description": "Response format. Only JSON is currently supported."
+                },
+                {
+                  "disabled": false,
+                  "key": "units",
+                  "value": "m",
+                  "description": "Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "numericPrecision",
+                  "value": "<string>",
+                  "description": "When set to \"decimal\", numeric values are returned with decimal precision instead of rounded integers.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7a977268-7493-4d2f-ab4a-f8038568d6f1",
+              "name": "Successful response with all current day observations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "pws",
+                    "observations",
+                    "all",
+                    "1day"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "stationId",
+                      "value": "KCASARAT1"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "units",
+                      "value": "e"
+                    },
+                    {
+                      "key": "numericPrecision",
+                      "value": "decimal"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"observations\": [\n    {\n      \"stationID\": \"KCASARAT1\",\n      \"obsTimeUtc\": \"2024-01-15T18:32:00Z\",\n      \"obsTimeLocal\": \"2024-01-15 10:32:00\",\n      \"neighborhood\": \"Downtown\",\n      \"softwareType\": \"WeatherBridge\",\n      \"country\": \"US\",\n      \"solarRadiation\": 320.5,\n      \"lon\": -122.419,\n      \"lat\": 37.774,\n      \"uv\": 3,\n      \"winddir\": 270,\n      \"windDirectionCardinal\": \"W\",\n      \"humidity\": 68,\n      \"epoch\": 1705343520,\n      \"qcStatus\": 1,\n      \"realtimeFrequency\": null,\n      \"imperial\": {\n        \"temp\": 55,\n        \"heatIndex\": 55,\n        \"dewpt\": 44,\n        \"windChill\": 55,\n        \"windSpeed\": 8,\n        \"windGust\": 12,\n        \"pressure\": 30.05,\n        \"precipRate\": 0,\n        \"precipTotal\": 0.12,\n        \"elev\": 52\n      },\n      \"metric\": {\n        \"temp\": 55,\n        \"heatIndex\": 55,\n        \"dewpt\": 44,\n        \"windChill\": 55,\n        \"windSpeed\": 8,\n        \"windGust\": 12,\n        \"pressure\": 30.05,\n        \"precipRate\": 0,\n        \"precipTotal\": 0.12,\n        \"elev\": 52\n      },\n      \"uk_hybrid\": {\n        \"temp\": 55,\n        \"heatIndex\": 55,\n        \"dewpt\": 44,\n        \"windChill\": 55,\n        \"windSpeed\": 8,\n        \"windGust\": 12,\n        \"pressure\": 30.05,\n        \"precipRate\": 0,\n        \"precipTotal\": 0.12,\n        \"elev\": 52\n      },\n      \"metric_si\": {\n        \"temp\": 55,\n        \"heatIndex\": 55,\n        \"dewpt\": 44,\n        \"windChill\": 55,\n        \"windSpeed\": 8,\n        \"windGust\": 12,\n        \"pressure\": 30.05,\n        \"precipRate\": 0,\n        \"precipTotal\": 0.12,\n        \"elev\": 52\n      }\n    },\n    {\n      \"stationID\": \"KCASARAT1\",\n      \"obsTimeUtc\": \"2024-01-15T18:32:00Z\",\n      \"obsTimeLocal\": \"2024-01-15 10:32:00\",\n      \"neighborhood\": \"Downtown\",\n      \"softwareType\": \"WeatherBridge\",\n      \"country\": \"US\",\n      \"solarRadiation\": 320.5,\n      \"lon\": -122.419,\n      \"lat\": 37.774,\n      \"uv\": 3,\n      \"winddir\": 270,\n      \"windDirectionCardinal\": \"W\",\n      \"humidity\": 68,\n      \"epoch\": 1705343520,\n      \"qcStatus\": 1,\n      \"realtimeFrequency\": null,\n      \"imperial\": {\n        \"temp\": 55,\n        \"heatIndex\": 55,\n        \"dewpt\": 44,\n        \"windChill\": 55,\n        \"windSpeed\": 8,\n        \"windGust\": 12,\n        \"pressure\": 30.05,\n        \"precipRate\": 0,\n        \"precipTotal\": 0.12,\n        \"elev\": 52\n      },\n      \"metric\": {\n        \"temp\": 55,\n        \"heatIndex\": 55,\n        \"dewpt\": 44,\n        \"windChill\": 55,\n        \"windSpeed\": 8,\n        \"windGust\": 12,\n        \"pressure\": 30.05,\n        \"precipRate\": 0,\n        \"precipTotal\": 0.12,\n        \"elev\": 52\n      },\n      \"uk_hybrid\": {\n        \"temp\": 55,\n        \"heatIndex\": 55,\n        \"dewpt\": 44,\n        \"windChill\": 55,\n        \"windSpeed\": 8,\n        \"windGust\": 12,\n        \"pressure\": 30.05,\n        \"precipRate\": 0,\n        \"precipTotal\": 0.12,\n        \"elev\": 52\n      },\n      \"metric_si\": {\n        \"temp\": 55,\n        \"heatIndex\": 55,\n        \"dewpt\": 44,\n        \"windChill\": 55,\n        \"windSpeed\": 8,\n        \"windGust\": 12,\n        \"pressure\": 30.05,\n        \"precipRate\": 0,\n        \"precipTotal\": 0.12,\n        \"elev\": 52\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "801aeccf-e5c6-4aef-b1e4-27a9afca6ab9",
+              "name": "Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "pws",
+                    "observations",
+                    "all",
+                    "1day"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "stationId",
+                      "value": "KCASARAT1"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "units",
+                      "value": "e"
+                    },
+                    {
+                      "key": "numericPrecision",
+                      "value": "decimal"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    },\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0db8f6da-06d1-42f4-bf28-446c949b355c",
+              "name": "The requested station ID was not found or has no data for the specified date range.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "pws",
+                    "observations",
+                    "all",
+                    "1day"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "stationId",
+                      "value": "KCASARAT1"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "units",
+                      "value": "e"
+                    },
+                    {
+                      "key": "numericPrecision",
+                      "value": "decimal"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    },\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.weather.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8531191f-a189-40ad-96f7-60bf1b5c4dc5",
+    "name": "Weather Underground PWS Forecast Observations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.\n",
+      "type": "text/plain"
+    }
+  }
+}

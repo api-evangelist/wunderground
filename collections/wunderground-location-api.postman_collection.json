@@ -1,0 +1,267 @@
+{
+  "item": [
+    {
+      "id": "2535fe12-6c5a-4d27-b75d-519596e7c772",
+      "name": "Location",
+      "description": {
+        "content": "PWS station location lookup",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2841602c-4262-446a-9533-4bb3665d369e",
+          "name": "Find nearest active PWS stations",
+          "request": {
+            "name": "Find nearest active PWS stations",
+            "description": {
+              "content": "Returns a list of nearest active Personal Weather Stations for a given geographic coordinate. Useful for discovering available station IDs before querying observation data.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "location",
+                "near"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "geocode",
+                  "value": "<string>",
+                  "description": "(Required) Latitude and longitude as a comma-separated pair"
+                },
+                {
+                  "disabled": false,
+                  "key": "product",
+                  "value": "<string>",
+                  "description": "(Required) Product type to search for (use \"pws\" for Personal Weather Stations)"
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "json",
+                  "description": "Response format. Only JSON is currently supported."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "163b66b2-4bb5-46c7-bbf2-d6fbbdd888f2",
+              "name": "Successful nearby PWS locations response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "location",
+                    "near"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "geocode",
+                      "value": "37.774,-122.419"
+                    },
+                    {
+                      "key": "product",
+                      "value": "pws"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"location\": {\n    \"stationIdentifier\": [\n      \"KCASARAT1\",\n      \"KCAFREMO12\"\n    ],\n    \"latitude\": [\n      37.774,\n      37.78\n    ],\n    \"longitude\": [\n      -122.419,\n      -122.425\n    ],\n    \"distanceKm\": [\n      0.5,\n      1.2\n    ],\n    \"distanceMi\": [\n      0.31,\n      0.75\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "adb52ed6-f30b-424d-be25-af0fd6e3fa24",
+              "name": "Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "location",
+                    "near"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "geocode",
+                      "value": "37.774,-122.419"
+                    },
+                    {
+                      "key": "product",
+                      "value": "pws"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    },\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7afc89e-1922-4608-9e8d-d89eb3a62aa0",
+              "name": "The requested station ID was not found or has no data for the specified date range.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "location",
+                    "near"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "geocode",
+                      "value": "37.774,-122.419"
+                    },
+                    {
+                      "key": "product",
+                      "value": "pws"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    },\n    {\n      \"error\": {\n        \"code\": \"NOT-AUTHORIZED\",\n        \"message\": \"Not Authorized\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.weather.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d296bc13-dd9f-40db-8dd7-73bc588a8078",
+    "name": "Weather Underground PWS Forecast Location API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.\n",
+      "type": "text/plain"
+    }
+  }
+}
