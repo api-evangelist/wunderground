@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Weather Underground PWS Forecast Location API
-  description: 'REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.
-
-    '
+  title: Weather Underground PWS Location API
+  description: REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.
   version: 2.0.0
   contact:
     url: https://www.wunderground.com/member/api-keys
@@ -26,9 +24,7 @@ paths:
     get:
       operationId: getNearbyPWSLocations
       summary: Find nearest active PWS stations
-      description: 'Returns a list of nearest active Personal Weather Stations for a given geographic coordinate. Useful for discovering available station IDs before querying observation data.
-
-        '
+      description: Returns a list of nearest active Personal Weather Stations for a given geographic coordinate. Useful for discovering available station IDs before querying observation data.
       tags:
       - Location
       parameters:
@@ -61,6 +57,23 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: 'The requested station ID was not found or has no data for the specified date range.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     format:
       name: format
@@ -73,26 +86,6 @@ components:
         - json
         default: json
   schemas:
-    ErrorResponse:
-      type: object
-      description: Error response from the API
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Error code
-                    example: NOT-AUTHORIZED
-                  message:
-                    type: string
-                    description: Human-readable error message
-                    example: Not Authorized
     LocationNearResponse:
       type: object
       description: Response containing nearby PWS station locations
@@ -141,23 +134,26 @@ components:
               example:
               - 0.31
               - 0.75
-  responses:
-    Unauthorized:
-      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: 'The requested station ID was not found or has no data for the specified date range.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    ErrorResponse:
+      type: object
+      description: Error response from the API
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                    example: NOT-AUTHORIZED
+                  message:
+                    type: string
+                    description: Human-readable error message
+                    example: Not Authorized
   securitySchemes:
     apiKey:
       type: apiKey

@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Weather Underground PWS Forecast Historical API
-  description: 'REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.
-
-    '
+  title: Weather Underground PWS Historical API
+  description: REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.
   version: 2.0.0
   contact:
     url: https://www.wunderground.com/member/api-keys
@@ -26,9 +24,7 @@ paths:
     get:
       operationId: getHourlyObservations7Day
       summary: Get hourly observations for the past 7 days
-      description: 'Returns hourly observation records for a specified Personal Weather Station over the past 7 days. Each record represents aggregated observations for a one-hour period.
-
-        '
+      description: Returns hourly observation records for a specified Personal Weather Station over the past 7 days. Each record represents aggregated observations for a one-hour period.
       tags:
       - Historical
       parameters:
@@ -51,9 +47,7 @@ paths:
     get:
       operationId: getDailySummary7Day
       summary: Get daily summary observations for the past 7 days
-      description: 'Returns daily summary observation records for a specified Personal Weather Station over the past 7 days. Each record aggregates all observations from a single calendar day into min/max/average values.
-
-        '
+      description: Returns daily summary observation records for a specified Personal Weather Station over the past 7 days. Each record aggregates all observations from a single calendar day into min/max/average values.
       tags:
       - Historical
       parameters:
@@ -76,9 +70,7 @@ paths:
     get:
       operationId: getHistoryAllForDate
       summary: Get all historical observations for a specific date
-      description: 'Returns all raw observation records for a specified Personal Weather Station on a given historical date. Provides the full granularity of data uploaded by the station for that date.
-
-        '
+      description: Returns all raw observation records for a specified Personal Weather Station on a given historical date. Provides the full granularity of data uploaded by the station for that date.
       tags:
       - Historical
       parameters:
@@ -109,9 +101,7 @@ paths:
     get:
       operationId: getHistoryDaily
       summary: Get daily historical observations for a date range
-      description: 'Returns daily summary historical records for a specified Personal Weather Station within a date range. Supports up to approximately one month of daily summaries per request.
-
-        '
+      description: Returns daily summary historical records for a specified Personal Weather Station within a date range. Supports up to approximately one month of daily summaries per request.
       tags:
       - Historical
       parameters:
@@ -147,16 +137,24 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: 'The requested station ID was not found or has no data for the specified date range.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    DailySummaryResponse:
-      type: object
-      description: Response containing daily summary PWS observations
-      properties:
-        summaries:
-          type: array
-          items:
-            $ref: '#/components/schemas/DailySummary'
-          description: Array of daily summary records
     ObservationsListResponse:
       type: object
       description: Response containing a list of PWS observations over a time period
@@ -234,8 +232,9 @@ components:
           description: Quality control status flag (1 = passed QC)
           example: 1
         realtimeFrequency:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           description: Realtime upload frequency in seconds, if applicable
           example: null
         imperial:
@@ -246,6 +245,26 @@ components:
           $ref: '#/components/schemas/UnitMeasurements'
         metric_si:
           $ref: '#/components/schemas/UnitMeasurements'
+    ErrorResponse:
+      type: object
+      description: Error response from the API
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                    example: NOT-AUTHORIZED
+                  message:
+                    type: string
+                    description: Human-readable error message
+                    example: Not Authorized
     UnitMeasurements:
       type: object
       description: 'Measurement values scoped to the requested unit system. The property name matches the units parameter value (e.g., "imperial", "metric", "uk_hybrid", or "metric_si").
@@ -292,26 +311,6 @@ components:
           type: number
           description: Station elevation above sea level
           example: 52.0
-    ErrorResponse:
-      type: object
-      description: Error response from the API
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Error code
-                    example: NOT-AUTHORIZED
-                  message:
-                    type: string
-                    description: Human-readable error message
-                    example: Not Authorized
     DailySummaryMeasurements:
       type: object
       description: Daily summary measurements in the requested unit system
@@ -408,6 +407,15 @@ components:
           type: number
           description: Total accumulated precipitation for the day
           example: 0.48
+    DailySummaryResponse:
+      type: object
+      description: Response containing daily summary PWS observations
+      properties:
+        summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailySummary'
+          description: Array of daily summary records
     DailySummary:
       type: object
       description: 'A daily summary record aggregating all observations from a single calendar day for a PWS station.
@@ -476,18 +484,6 @@ components:
         enum:
         - json
         default: json
-    numericPrecision:
-      name: numericPrecision
-      in: query
-      required: false
-      description: 'When set to "decimal", numeric values are returned with decimal precision instead of rounded integers.
-
-        '
-      schema:
-        type: string
-        enum:
-        - decimal
-        example: decimal
     units:
       name: units
       in: query
@@ -514,23 +510,18 @@ components:
       schema:
         type: string
         example: KCASARAT1
-  responses:
-    Unauthorized:
-      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
+    numericPrecision:
+      name: numericPrecision
+      in: query
+      required: false
+      description: 'When set to "decimal", numeric values are returned with decimal precision instead of rounded integers.
 
         '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: 'The requested station ID was not found or has no data for the specified date range.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+      schema:
+        type: string
+        enum:
+        - decimal
+        example: decimal
   securitySchemes:
     apiKey:
       type: apiKey

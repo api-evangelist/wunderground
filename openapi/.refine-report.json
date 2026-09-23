@@ -1,10 +1,7 @@
 {
   "provider": "wunderground",
   "sources": [
-    "wunderground-forecast-api-openapi.yml",
-    "wunderground-historical-api-openapi.yml",
-    "wunderground-location-api-openapi.yml",
-    "wunderground-observations-api-openapi.yml"
+    "_original/wunderground-pws-api.yml"
   ],
   "outputs": [
     "wunderground-forecast-api-openapi.yml",
@@ -15,6 +12,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "wunderground-pws-api.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "wunderground-forecast-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "wunderground-historical-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "wunderground-location-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "wunderground-observations-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

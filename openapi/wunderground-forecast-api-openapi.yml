@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Weather Underground PWS Forecast API
-  description: 'REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.
-
-    '
+  description: REST API for Personal Weather Station (PWS) data provided by Weather Underground (hosted at api.weather.com). Provides current conditions, daily summaries, hourly and daily historical records, 5-day forecasts, and station location lookup. Access requires a free API key issued to registered PWS contributors.
   version: 2.0.0
   contact:
     url: https://www.wunderground.com/member/api-keys
@@ -26,9 +24,7 @@ paths:
     get:
       operationId: get5DayForecast
       summary: Get 5-day daily weather forecast
-      description: 'Returns a 5-day daily weather forecast for a location specified by geocode (latitude and longitude). Typically used in conjunction with PWS station coordinates obtained from the observations endpoint.
-
-        '
+      description: Returns a 5-day daily weather forecast for a location specified by geocode (latitude and longitude). Typically used in conjunction with PWS station coordinates obtained from the observations endpoint.
       tags:
       - Forecast
       parameters:
@@ -65,33 +61,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    format:
-      name: format
-      in: query
-      required: false
-      description: Response format. Only JSON is currently supported.
-      schema:
-        type: string
-        enum:
-        - json
-        default: json
-    units:
-      name: units
-      in: query
-      required: false
-      description: 'Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)
-
-        '
-      schema:
-        type: string
-        enum:
-        - e
-        - m
-        - s
-        - h
-        default: m
-        example: e
   schemas:
     ForecastResponse:
       type: object
@@ -100,8 +69,9 @@ components:
         calendarDayTemperatureMax:
           type: array
           items:
-            type: integer
-            nullable: true
+            type:
+            - integer
+            - 'null'
           description: Maximum calendar day temperatures for each day
           example:
           - 62
@@ -112,8 +82,9 @@ components:
         calendarDayTemperatureMin:
           type: array
           items:
-            type: integer
-            nullable: true
+            type:
+            - integer
+            - 'null'
           description: Minimum calendar day temperatures for each day
           example:
           - 48
@@ -147,14 +118,16 @@ components:
         moonriseTimeLocal:
           type: array
           items:
-            type: string
-            nullable: true
+            type:
+            - string
+            - 'null'
           description: Local moonrise time for each day
         moonsetTimeLocal:
           type: array
           items:
-            type: string
-            nullable: true
+            type:
+            - string
+            - 'null'
           description: Local moonset time for each day
         narrative:
           type: array
@@ -166,8 +139,9 @@ components:
         qpf:
           type: array
           items:
-            type: number
-            nullable: true
+            type:
+            - number
+            - 'null'
           description: Quantitative precipitation forecast for each day
           example:
           - 0.1
@@ -178,8 +152,9 @@ components:
         qpfSnow:
           type: array
           items:
-            type: number
-            nullable: true
+            type:
+            - number
+            - 'null'
           description: Quantitative snow precipitation forecast for each day
           example:
           - 0.0
@@ -190,24 +165,27 @@ components:
         sunriseTimeLocal:
           type: array
           items:
-            type: string
-            nullable: true
+            type:
+            - string
+            - 'null'
           description: Local sunrise time for each day
           example:
           - 2024-01-15T07:23:00-0800
         sunsetTimeLocal:
           type: array
           items:
-            type: string
-            nullable: true
+            type:
+            - string
+            - 'null'
           description: Local sunset time for each day
           example:
           - 2024-01-15T17:12:00-0800
         temperatureMax:
           type: array
           items:
-            type: integer
-            nullable: true
+            type:
+            - integer
+            - 'null'
           description: Maximum temperature for each forecast day
           example:
           - 62
@@ -218,8 +196,9 @@ components:
         temperatureMin:
           type: array
           items:
-            type: integer
-            nullable: true
+            type:
+            - integer
+            - 'null'
           description: Minimum temperature for each forecast day
           example:
           - 48
@@ -246,6 +225,124 @@ components:
           items:
             $ref: '#/components/schemas/ForecastDaypart'
           description: Detailed forecast data for each day part (day/night pairs)
+    ForecastDaypart:
+      type: object
+      description: Forecast data for a specific day part (day or night)
+      properties:
+        cloudCover:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Cloud cover percentage for each day part
+          example:
+          - 40
+          - 20
+          - 55
+          - 30
+        iconCode:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Weather icon code for each day part
+          example:
+          - 28
+          - 31
+          - 26
+          - 33
+        iconCodeExtend:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Extended icon code for each day part
+        narrative:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+          description: Text narrative forecast for each day part
+          example:
+          - Mostly cloudy. High 62F.
+          - Clear. Low 48F.
+        precipChance:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Probability of precipitation percentage for each day part
+          example:
+          - 20
+          - 10
+          - 40
+          - 15
+        precipType:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+          description: Type of precipitation expected for each day part
+          example:
+          - rain
+          - none
+        temperature:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Temperature for each day part
+          example:
+          - 62
+          - 48
+          - 58
+          - 45
+        windDirection:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Wind direction in degrees for each day part
+          example:
+          - 270
+          - 250
+        windDirectionCardinal:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+          description: Cardinal wind direction for each day part
+          example:
+          - W
+          - WSW
+        windPhrase:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+          description: Text description of wind conditions for each day part
+          example:
+          - Winds W at 10 to 15 mph.
+        windSpeed:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Wind speed for each day part
+          example:
+          - 12
+          - 8
     ErrorResponse:
       type: object
       description: Error response from the API
@@ -266,113 +363,6 @@ components:
                     type: string
                     description: Human-readable error message
                     example: Not Authorized
-    ForecastDaypart:
-      type: object
-      description: Forecast data for a specific day part (day or night)
-      properties:
-        cloudCover:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Cloud cover percentage for each day part
-          example:
-          - 40
-          - 20
-          - 55
-          - 30
-        iconCode:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Weather icon code for each day part
-          example:
-          - 28
-          - 31
-          - 26
-          - 33
-        iconCodeExtend:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Extended icon code for each day part
-        narrative:
-          type: array
-          items:
-            type: string
-            nullable: true
-          description: Text narrative forecast for each day part
-          example:
-          - Mostly cloudy. High 62F.
-          - Clear. Low 48F.
-        precipChance:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Probability of precipitation percentage for each day part
-          example:
-          - 20
-          - 10
-          - 40
-          - 15
-        precipType:
-          type: array
-          items:
-            type: string
-            nullable: true
-          description: Type of precipitation expected for each day part
-          example:
-          - rain
-          - none
-        temperature:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Temperature for each day part
-          example:
-          - 62
-          - 48
-          - 58
-          - 45
-        windDirection:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Wind direction in degrees for each day part
-          example:
-          - 270
-          - 250
-        windDirectionCardinal:
-          type: array
-          items:
-            type: string
-            nullable: true
-          description: Cardinal wind direction for each day part
-          example:
-          - W
-          - WSW
-        windPhrase:
-          type: array
-          items:
-            type: string
-            nullable: true
-          description: Text description of wind conditions for each day part
-          example:
-          - Winds W at 10 to 15 mph.
-        windSpeed:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Wind speed for each day part
-          example:
-          - 12
-          - 8
   responses:
     Unauthorized:
       description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
@@ -390,6 +380,33 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    format:
+      name: format
+      in: query
+      required: false
+      description: Response format. Only JSON is currently supported.
+      schema:
+        type: string
+        enum:
+        - json
+        default: json
+    units:
+      name: units
+      in: query
+      required: false
+      description: 'Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)
+
+        '
+      schema:
+        type: string
+        enum:
+        - e
+        - m
+        - s
+        - h
+        default: m
+        example: e
   securitySchemes:
     apiKey:
       type: apiKey
