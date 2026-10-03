@@ -61,24 +61,17 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: 'The requested station ID was not found or has no data for the specified date range.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
+    format:
+      name: format
+      in: query
+      required: false
+      description: Response format. Only JSON is currently supported.
+      schema:
+        type: string
+        enum:
+        - json
+        default: json
     units:
       name: units
       in: query
@@ -95,16 +88,6 @@ components:
         - h
         default: m
         example: e
-    format:
-      name: format
-      in: query
-      required: false
-      description: Response format. Only JSON is currently supported.
-      schema:
-        type: string
-        enum:
-        - json
-        default: json
   schemas:
     ErrorResponse:
       type: object
@@ -126,124 +109,6 @@ components:
                     type: string
                     description: Human-readable error message
                     example: Not Authorized
-    ForecastDaypart:
-      type: object
-      description: Forecast data for a specific day part (day or night)
-      properties:
-        cloudCover:
-          type: array
-          items:
-            type:
-            - integer
-            - 'null'
-          description: Cloud cover percentage for each day part
-          example:
-          - 40
-          - 20
-          - 55
-          - 30
-        iconCode:
-          type: array
-          items:
-            type:
-            - integer
-            - 'null'
-          description: Weather icon code for each day part
-          example:
-          - 28
-          - 31
-          - 26
-          - 33
-        iconCodeExtend:
-          type: array
-          items:
-            type:
-            - integer
-            - 'null'
-          description: Extended icon code for each day part
-        narrative:
-          type: array
-          items:
-            type:
-            - string
-            - 'null'
-          description: Text narrative forecast for each day part
-          example:
-          - Mostly cloudy. High 62F.
-          - Clear. Low 48F.
-        precipChance:
-          type: array
-          items:
-            type:
-            - integer
-            - 'null'
-          description: Probability of precipitation percentage for each day part
-          example:
-          - 20
-          - 10
-          - 40
-          - 15
-        precipType:
-          type: array
-          items:
-            type:
-            - string
-            - 'null'
-          description: Type of precipitation expected for each day part
-          example:
-          - rain
-          - none
-        temperature:
-          type: array
-          items:
-            type:
-            - integer
-            - 'null'
-          description: Temperature for each day part
-          example:
-          - 62
-          - 48
-          - 58
-          - 45
-        windDirection:
-          type: array
-          items:
-            type:
-            - integer
-            - 'null'
-          description: Wind direction in degrees for each day part
-          example:
-          - 270
-          - 250
-        windDirectionCardinal:
-          type: array
-          items:
-            type:
-            - string
-            - 'null'
-          description: Cardinal wind direction for each day part
-          example:
-          - W
-          - WSW
-        windPhrase:
-          type: array
-          items:
-            type:
-            - string
-            - 'null'
-          description: Text description of wind conditions for each day part
-          example:
-          - Winds W at 10 to 15 mph.
-        windSpeed:
-          type: array
-          items:
-            type:
-            - integer
-            - 'null'
-          description: Wind speed for each day part
-          example:
-          - 12
-          - 8
     ForecastResponse:
       type: object
       description: 5-day daily weather forecast response
@@ -407,6 +272,141 @@ components:
           items:
             $ref: '#/components/schemas/ForecastDaypart'
           description: Detailed forecast data for each day part (day/night pairs)
+    ForecastDaypart:
+      type: object
+      description: Forecast data for a specific day part (day or night)
+      properties:
+        cloudCover:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Cloud cover percentage for each day part
+          example:
+          - 40
+          - 20
+          - 55
+          - 30
+        iconCode:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Weather icon code for each day part
+          example:
+          - 28
+          - 31
+          - 26
+          - 33
+        iconCodeExtend:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Extended icon code for each day part
+        narrative:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+          description: Text narrative forecast for each day part
+          example:
+          - Mostly cloudy. High 62F.
+          - Clear. Low 48F.
+        precipChance:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Probability of precipitation percentage for each day part
+          example:
+          - 20
+          - 10
+          - 40
+          - 15
+        precipType:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+          description: Type of precipitation expected for each day part
+          example:
+          - rain
+          - none
+        temperature:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Temperature for each day part
+          example:
+          - 62
+          - 48
+          - 58
+          - 45
+        windDirection:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Wind direction in degrees for each day part
+          example:
+          - 270
+          - 250
+        windDirectionCardinal:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+          description: Cardinal wind direction for each day part
+          example:
+          - W
+          - WSW
+        windPhrase:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+          description: Text description of wind conditions for each day part
+          example:
+          - Winds W at 10 to 15 mph.
+        windSpeed:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Wind speed for each day part
+          example:
+          - 12
+          - 8
+  responses:
+    NotFound:
+      description: 'The requested station ID was not found or has no data for the specified date range.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     apiKey:
       type: apiKey

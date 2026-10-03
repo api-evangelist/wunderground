@@ -137,24 +137,148 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: 'The requested station ID was not found or has no data for the specified date range.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    DailySummaryResponse:
+      type: object
+      description: Response containing daily summary PWS observations
+      properties:
+        summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailySummary'
+          description: Array of daily summary records
+    UnitMeasurements:
+      type: object
+      description: 'Measurement values scoped to the requested unit system. The property name matches the units parameter value (e.g., "imperial", "metric", "uk_hybrid", or "metric_si").
+
+        '
+      properties:
+        temp:
+          type: number
+          description: Air temperature
+          example: 55.0
+        heatIndex:
+          type: number
+          description: Apparent temperature accounting for humidity
+          example: 55.0
+        dewpt:
+          type: number
+          description: Dew point temperature
+          example: 44.0
+        windChill:
+          type: number
+          description: Wind chill temperature
+          example: 55.0
+        windSpeed:
+          type: number
+          description: Average wind speed
+          example: 8.0
+        windGust:
+          type: number
+          description: Peak wind gust speed
+          example: 12.0
+        pressure:
+          type: number
+          description: Atmospheric pressure (inHg for imperial, mbar for metric)
+          example: 30.05
+        precipRate:
+          type: number
+          description: Current precipitation rate per hour
+          example: 0.0
+        precipTotal:
+          type: number
+          description: Accumulated daily precipitation total
+          example: 0.12
+        elev:
+          type: number
+          description: Station elevation above sea level
+          example: 52.0
+    DailySummary:
+      type: object
+      description: 'A daily summary record aggregating all observations from a single calendar day for a PWS station.
+
+        '
+      properties:
+        stationID:
+          type: string
+          description: Unique identifier of the PWS station
+          example: KCASARAT1
+        tz:
+          type: string
+          description: IANA timezone name of the station
+          example: America/Los_Angeles
+        obsTimeLocal:
+          type: string
+          description: Local date of the daily summary
+          example: '2024-01-15 00:00:00'
+        obsTimeUtc:
+          type: string
+          format: date-time
+          description: UTC date of the daily summary
+          example: '2024-01-15T08:00:00Z'
+        epoch:
+          type: integer
+          description: Unix timestamp for the summary period
+          example: 1705296000
+        lat:
+          type: number
+          format: double
+          description: Station latitude in decimal degrees
+          example: 37.774
+        lon:
+          type: number
+          format: double
+          description: Station longitude in decimal degrees
+          example: -122.419
+        humidity:
+          type: object
+          description: Humidity summary statistics
+          properties:
+            min:
+              type: integer
+              description: Minimum humidity percentage for the day
+              example: 45
+            max:
+              type: integer
+              description: Maximum humidity percentage for the day
+              example: 92
+            avg:
+              type: integer
+              description: Average humidity percentage for the day
+              example: 68
+        imperial:
+          $ref: '#/components/schemas/DailySummaryMeasurements'
+        metric:
+          $ref: '#/components/schemas/DailySummaryMeasurements'
+    ObservationsListResponse:
+      type: object
+      description: Response containing a list of PWS observations over a time period
+      properties:
+        observations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Observation'
+          description: Array of observation records ordered by time
+    ErrorResponse:
+      type: object
+      description: Error response from the API
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                    example: NOT-AUTHORIZED
+                  message:
+                    type: string
+                    description: Human-readable error message
+                    example: Not Authorized
     DailySummaryMeasurements:
       type: object
       description: Daily summary measurements in the requested unit system
@@ -251,83 +375,6 @@ components:
           type: number
           description: Total accumulated precipitation for the day
           example: 0.48
-    DailySummary:
-      type: object
-      description: 'A daily summary record aggregating all observations from a single calendar day for a PWS station.
-
-        '
-      properties:
-        stationID:
-          type: string
-          description: Unique identifier of the PWS station
-          example: KCASARAT1
-        tz:
-          type: string
-          description: IANA timezone name of the station
-          example: America/Los_Angeles
-        obsTimeLocal:
-          type: string
-          description: Local date of the daily summary
-          example: '2024-01-15 00:00:00'
-        obsTimeUtc:
-          type: string
-          format: date-time
-          description: UTC date of the daily summary
-          example: '2024-01-15T08:00:00Z'
-        epoch:
-          type: integer
-          description: Unix timestamp for the summary period
-          example: 1705296000
-        lat:
-          type: number
-          format: double
-          description: Station latitude in decimal degrees
-          example: 37.774
-        lon:
-          type: number
-          format: double
-          description: Station longitude in decimal degrees
-          example: -122.419
-        humidity:
-          type: object
-          description: Humidity summary statistics
-          properties:
-            min:
-              type: integer
-              description: Minimum humidity percentage for the day
-              example: 45
-            max:
-              type: integer
-              description: Maximum humidity percentage for the day
-              example: 92
-            avg:
-              type: integer
-              description: Average humidity percentage for the day
-              example: 68
-        imperial:
-          $ref: '#/components/schemas/DailySummaryMeasurements'
-        metric:
-          $ref: '#/components/schemas/DailySummaryMeasurements'
-    ErrorResponse:
-      type: object
-      description: Error response from the API
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Error code
-                    example: NOT-AUTHORIZED
-                  message:
-                    type: string
-                    description: Human-readable error message
-                    example: Not Authorized
     Observation:
       type: object
       description: A single weather observation record from a PWS station
@@ -409,71 +456,17 @@ components:
           $ref: '#/components/schemas/UnitMeasurements'
         metric_si:
           $ref: '#/components/schemas/UnitMeasurements'
-    DailySummaryResponse:
-      type: object
-      description: Response containing daily summary PWS observations
-      properties:
-        summaries:
-          type: array
-          items:
-            $ref: '#/components/schemas/DailySummary'
-          description: Array of daily summary records
-    UnitMeasurements:
-      type: object
-      description: 'Measurement values scoped to the requested unit system. The property name matches the units parameter value (e.g., "imperial", "metric", "uk_hybrid", or "metric_si").
-
-        '
-      properties:
-        temp:
-          type: number
-          description: Air temperature
-          example: 55.0
-        heatIndex:
-          type: number
-          description: Apparent temperature accounting for humidity
-          example: 55.0
-        dewpt:
-          type: number
-          description: Dew point temperature
-          example: 44.0
-        windChill:
-          type: number
-          description: Wind chill temperature
-          example: 55.0
-        windSpeed:
-          type: number
-          description: Average wind speed
-          example: 8.0
-        windGust:
-          type: number
-          description: Peak wind gust speed
-          example: 12.0
-        pressure:
-          type: number
-          description: Atmospheric pressure (inHg for imperial, mbar for metric)
-          example: 30.05
-        precipRate:
-          type: number
-          description: Current precipitation rate per hour
-          example: 0.0
-        precipTotal:
-          type: number
-          description: Accumulated daily precipitation total
-          example: 0.12
-        elev:
-          type: number
-          description: Station elevation above sea level
-          example: 52.0
-    ObservationsListResponse:
-      type: object
-      description: Response containing a list of PWS observations over a time period
-      properties:
-        observations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Observation'
-          description: Array of observation records ordered by time
   parameters:
+    format:
+      name: format
+      in: query
+      required: false
+      description: Response format. Only JSON is currently supported.
+      schema:
+        type: string
+        enum:
+        - json
+        default: json
     units:
       name: units
       in: query
@@ -490,16 +483,6 @@ components:
         - h
         default: m
         example: e
-    format:
-      name: format
-      in: query
-      required: false
-      description: Response format. Only JSON is currently supported.
-      schema:
-        type: string
-        enum:
-        - json
-        default: json
     numericPrecision:
       name: numericPrecision
       in: query
@@ -522,6 +505,23 @@ components:
       schema:
         type: string
         example: KCASARAT1
+  responses:
+    NotFound:
+      description: 'The requested station ID was not found or has no data for the specified date range.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     apiKey:
       type: apiKey
