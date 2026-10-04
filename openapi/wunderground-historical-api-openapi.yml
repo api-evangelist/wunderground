@@ -138,15 +138,107 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    DailySummaryResponse:
+    Observation:
       type: object
-      description: Response containing daily summary PWS observations
+      description: A single weather observation record from a PWS station
       properties:
-        summaries:
+        stationID:
+          type: string
+          description: Unique identifier of the PWS station
+          example: KCASARAT1
+        obsTimeUtc:
+          type: string
+          format: date-time
+          description: Observation timestamp in UTC
+          example: '2024-01-15T18:32:00Z'
+        obsTimeLocal:
+          type: string
+          description: Observation timestamp in local station time
+          example: '2024-01-15 10:32:00'
+        neighborhood:
+          type: string
+          description: Neighborhood or location name for the station
+          example: Downtown
+        softwareType:
+          type: string
+          description: Software used to upload data to the network
+          example: WeatherBridge
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code of the station
+          example: US
+        solarRadiation:
+          type: number
+          description: Solar radiation intensity in W/m²
+          example: 320.5
+        lon:
+          type: number
+          format: double
+          description: Station longitude in decimal degrees
+          example: -122.419
+        lat:
+          type: number
+          format: double
+          description: Station latitude in decimal degrees
+          example: 37.774
+        uv:
+          type: number
+          description: UV index value
+          example: 3.0
+        winddir:
+          type: integer
+          description: Wind direction in degrees (0–360)
+          example: 270
+        windDirectionCardinal:
+          type: string
+          description: Wind direction as a compass cardinal or intercardinal point
+          example: W
+        humidity:
+          type: integer
+          description: Relative humidity percentage
+          example: 68
+        epoch:
+          type: integer
+          description: Unix timestamp of the observation
+          example: 1705343520
+        qcStatus:
+          type: integer
+          description: Quality control status flag (1 = passed QC)
+          example: 1
+        realtimeFrequency:
+          type:
+          - integer
+          - 'null'
+          description: Realtime upload frequency in seconds, if applicable
+          example: null
+        imperial:
+          $ref: '#/components/schemas/UnitMeasurements'
+        metric:
+          $ref: '#/components/schemas/UnitMeasurements'
+        uk_hybrid:
+          $ref: '#/components/schemas/UnitMeasurements'
+        metric_si:
+          $ref: '#/components/schemas/UnitMeasurements'
+    ErrorResponse:
+      type: object
+      description: Error response from the API
+      properties:
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/DailySummary'
-          description: Array of daily summary records
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                    example: NOT-AUTHORIZED
+                  message:
+                    type: string
+                    description: Human-readable error message
+                    example: Not Authorized
     UnitMeasurements:
       type: object
       description: 'Measurement values scoped to the requested unit system. The property name matches the units parameter value (e.g., "imperial", "metric", "uk_hybrid", or "metric_si").
@@ -193,92 +285,15 @@ components:
           type: number
           description: Station elevation above sea level
           example: 52.0
-    DailySummary:
+    DailySummaryResponse:
       type: object
-      description: 'A daily summary record aggregating all observations from a single calendar day for a PWS station.
-
-        '
+      description: Response containing daily summary PWS observations
       properties:
-        stationID:
-          type: string
-          description: Unique identifier of the PWS station
-          example: KCASARAT1
-        tz:
-          type: string
-          description: IANA timezone name of the station
-          example: America/Los_Angeles
-        obsTimeLocal:
-          type: string
-          description: Local date of the daily summary
-          example: '2024-01-15 00:00:00'
-        obsTimeUtc:
-          type: string
-          format: date-time
-          description: UTC date of the daily summary
-          example: '2024-01-15T08:00:00Z'
-        epoch:
-          type: integer
-          description: Unix timestamp for the summary period
-          example: 1705296000
-        lat:
-          type: number
-          format: double
-          description: Station latitude in decimal degrees
-          example: 37.774
-        lon:
-          type: number
-          format: double
-          description: Station longitude in decimal degrees
-          example: -122.419
-        humidity:
-          type: object
-          description: Humidity summary statistics
-          properties:
-            min:
-              type: integer
-              description: Minimum humidity percentage for the day
-              example: 45
-            max:
-              type: integer
-              description: Maximum humidity percentage for the day
-              example: 92
-            avg:
-              type: integer
-              description: Average humidity percentage for the day
-              example: 68
-        imperial:
-          $ref: '#/components/schemas/DailySummaryMeasurements'
-        metric:
-          $ref: '#/components/schemas/DailySummaryMeasurements'
-    ObservationsListResponse:
-      type: object
-      description: Response containing a list of PWS observations over a time period
-      properties:
-        observations:
+        summaries:
           type: array
           items:
-            $ref: '#/components/schemas/Observation'
-          description: Array of observation records ordered by time
-    ErrorResponse:
-      type: object
-      description: Error response from the API
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Error code
-                    example: NOT-AUTHORIZED
-                  message:
-                    type: string
-                    description: Human-readable error message
-                    example: Not Authorized
+            $ref: '#/components/schemas/DailySummary'
+          description: Array of daily summary records
     DailySummaryMeasurements:
       type: object
       description: Daily summary measurements in the requested unit system
@@ -375,98 +390,90 @@ components:
           type: number
           description: Total accumulated precipitation for the day
           example: 0.48
-    Observation:
+    DailySummary:
       type: object
-      description: A single weather observation record from a PWS station
+      description: 'A daily summary record aggregating all observations from a single calendar day for a PWS station.
+
+        '
       properties:
         stationID:
           type: string
           description: Unique identifier of the PWS station
           example: KCASARAT1
+        tz:
+          type: string
+          description: IANA timezone name of the station
+          example: America/Los_Angeles
+        obsTimeLocal:
+          type: string
+          description: Local date of the daily summary
+          example: '2024-01-15 00:00:00'
         obsTimeUtc:
           type: string
           format: date-time
-          description: Observation timestamp in UTC
-          example: '2024-01-15T18:32:00Z'
-        obsTimeLocal:
-          type: string
-          description: Observation timestamp in local station time
-          example: '2024-01-15 10:32:00'
-        neighborhood:
-          type: string
-          description: Neighborhood or location name for the station
-          example: Downtown
-        softwareType:
-          type: string
-          description: Software used to upload data to the network
-          example: WeatherBridge
-        country:
-          type: string
-          description: ISO 3166-1 alpha-2 country code of the station
-          example: US
-        solarRadiation:
-          type: number
-          description: Solar radiation intensity in W/m²
-          example: 320.5
-        lon:
-          type: number
-          format: double
-          description: Station longitude in decimal degrees
-          example: -122.419
+          description: UTC date of the daily summary
+          example: '2024-01-15T08:00:00Z'
+        epoch:
+          type: integer
+          description: Unix timestamp for the summary period
+          example: 1705296000
         lat:
           type: number
           format: double
           description: Station latitude in decimal degrees
           example: 37.774
-        uv:
+        lon:
           type: number
-          description: UV index value
-          example: 3.0
-        winddir:
-          type: integer
-          description: Wind direction in degrees (0–360)
-          example: 270
-        windDirectionCardinal:
-          type: string
-          description: Wind direction as a compass cardinal or intercardinal point
-          example: W
+          format: double
+          description: Station longitude in decimal degrees
+          example: -122.419
         humidity:
-          type: integer
-          description: Relative humidity percentage
-          example: 68
-        epoch:
-          type: integer
-          description: Unix timestamp of the observation
-          example: 1705343520
-        qcStatus:
-          type: integer
-          description: Quality control status flag (1 = passed QC)
-          example: 1
-        realtimeFrequency:
-          type:
-          - integer
-          - 'null'
-          description: Realtime upload frequency in seconds, if applicable
-          example: null
+          type: object
+          description: Humidity summary statistics
+          properties:
+            min:
+              type: integer
+              description: Minimum humidity percentage for the day
+              example: 45
+            max:
+              type: integer
+              description: Maximum humidity percentage for the day
+              example: 92
+            avg:
+              type: integer
+              description: Average humidity percentage for the day
+              example: 68
         imperial:
-          $ref: '#/components/schemas/UnitMeasurements'
+          $ref: '#/components/schemas/DailySummaryMeasurements'
         metric:
-          $ref: '#/components/schemas/UnitMeasurements'
-        uk_hybrid:
-          $ref: '#/components/schemas/UnitMeasurements'
-        metric_si:
-          $ref: '#/components/schemas/UnitMeasurements'
+          $ref: '#/components/schemas/DailySummaryMeasurements'
+    ObservationsListResponse:
+      type: object
+      description: Response containing a list of PWS observations over a time period
+      properties:
+        observations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Observation'
+          description: Array of observation records ordered by time
+  responses:
+    NotFound:
+      description: 'The requested station ID was not found or has no data for the specified date range.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    format:
-      name: format
-      in: query
-      required: false
-      description: Response format. Only JSON is currently supported.
-      schema:
-        type: string
-        enum:
-        - json
-        default: json
     units:
       name: units
       in: query
@@ -495,6 +502,16 @@ components:
         enum:
         - decimal
         example: decimal
+    format:
+      name: format
+      in: query
+      required: false
+      description: Response format. Only JSON is currently supported.
+      schema:
+        type: string
+        enum:
+        - json
+        default: json
     stationId:
       name: stationId
       in: query
@@ -505,23 +522,6 @@ components:
       schema:
         type: string
         example: KCASARAT1
-  responses:
-    NotFound:
-      description: 'The requested station ID was not found or has no data for the specified date range.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     apiKey:
       type: apiKey

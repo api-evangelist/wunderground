@@ -95,131 +95,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    format:
-      name: format
-      in: query
-      required: false
-      description: Response format. Only JSON is currently supported.
-      schema:
-        type: string
-        enum:
-        - json
-        default: json
-    units:
-      name: units
-      in: query
-      required: false
-      description: 'Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)
-
-        '
-      schema:
-        type: string
-        enum:
-        - e
-        - m
-        - s
-        - h
-        default: m
-        example: e
-    numericPrecision:
-      name: numericPrecision
-      in: query
-      required: false
-      description: 'When set to "decimal", numeric values are returned with decimal precision instead of rounded integers.
-
-        '
-      schema:
-        type: string
-        enum:
-        - decimal
-        example: decimal
-    stationId:
-      name: stationId
-      in: query
-      required: true
-      description: 'The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground''s PWS network.
-
-        '
-      schema:
-        type: string
-        example: KCASARAT1
   schemas:
-    UnitMeasurements:
-      type: object
-      description: 'Measurement values scoped to the requested unit system. The property name matches the units parameter value (e.g., "imperial", "metric", "uk_hybrid", or "metric_si").
-
-        '
-      properties:
-        temp:
-          type: number
-          description: Air temperature
-          example: 55.0
-        heatIndex:
-          type: number
-          description: Apparent temperature accounting for humidity
-          example: 55.0
-        dewpt:
-          type: number
-          description: Dew point temperature
-          example: 44.0
-        windChill:
-          type: number
-          description: Wind chill temperature
-          example: 55.0
-        windSpeed:
-          type: number
-          description: Average wind speed
-          example: 8.0
-        windGust:
-          type: number
-          description: Peak wind gust speed
-          example: 12.0
-        pressure:
-          type: number
-          description: Atmospheric pressure (inHg for imperial, mbar for metric)
-          example: 30.05
-        precipRate:
-          type: number
-          description: Current precipitation rate per hour
-          example: 0.0
-        precipTotal:
-          type: number
-          description: Accumulated daily precipitation total
-          example: 0.12
-        elev:
-          type: number
-          description: Station elevation above sea level
-          example: 52.0
-    ObservationsListResponse:
-      type: object
-      description: Response containing a list of PWS observations over a time period
-      properties:
-        observations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Observation'
-          description: Array of observation records ordered by time
-    ErrorResponse:
-      type: object
-      description: Error response from the API
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Error code
-                    example: NOT-AUTHORIZED
-                  message:
-                    type: string
-                    description: Human-readable error message
-                    example: Not Authorized
     Observation:
       type: object
       description: A single weather observation record from a PWS station
@@ -301,6 +177,81 @@ components:
           $ref: '#/components/schemas/UnitMeasurements'
         metric_si:
           $ref: '#/components/schemas/UnitMeasurements'
+    ErrorResponse:
+      type: object
+      description: Error response from the API
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                    example: NOT-AUTHORIZED
+                  message:
+                    type: string
+                    description: Human-readable error message
+                    example: Not Authorized
+    UnitMeasurements:
+      type: object
+      description: 'Measurement values scoped to the requested unit system. The property name matches the units parameter value (e.g., "imperial", "metric", "uk_hybrid", or "metric_si").
+
+        '
+      properties:
+        temp:
+          type: number
+          description: Air temperature
+          example: 55.0
+        heatIndex:
+          type: number
+          description: Apparent temperature accounting for humidity
+          example: 55.0
+        dewpt:
+          type: number
+          description: Dew point temperature
+          example: 44.0
+        windChill:
+          type: number
+          description: Wind chill temperature
+          example: 55.0
+        windSpeed:
+          type: number
+          description: Average wind speed
+          example: 8.0
+        windGust:
+          type: number
+          description: Peak wind gust speed
+          example: 12.0
+        pressure:
+          type: number
+          description: Atmospheric pressure (inHg for imperial, mbar for metric)
+          example: 30.05
+        precipRate:
+          type: number
+          description: Current precipitation rate per hour
+          example: 0.0
+        precipTotal:
+          type: number
+          description: Accumulated daily precipitation total
+          example: 0.12
+        elev:
+          type: number
+          description: Station elevation above sea level
+          example: 52.0
+    ObservationsListResponse:
+      type: object
+      description: Response containing a list of PWS observations over a time period
+      properties:
+        observations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Observation'
+          description: Array of observation records ordered by time
     CurrentObservationsResponse:
       type: object
       description: Response containing current PWS observations
@@ -311,14 +262,6 @@ components:
             $ref: '#/components/schemas/Observation'
           description: Array of current observation records (typically one item)
   responses:
-    NotFound:
-      description: 'The requested station ID was not found or has no data for the specified date range.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
 
@@ -327,6 +270,63 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: 'The requested station ID was not found or has no data for the specified date range.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    numericPrecision:
+      name: numericPrecision
+      in: query
+      required: false
+      description: 'When set to "decimal", numeric values are returned with decimal precision instead of rounded integers.
+
+        '
+      schema:
+        type: string
+        enum:
+        - decimal
+        example: decimal
+    units:
+      name: units
+      in: query
+      required: false
+      description: 'Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)
+
+        '
+      schema:
+        type: string
+        enum:
+        - e
+        - m
+        - s
+        - h
+        default: m
+        example: e
+    format:
+      name: format
+      in: query
+      required: false
+      description: Response format. Only JSON is currently supported.
+      schema:
+        type: string
+        enum:
+        - json
+        default: json
+    stationId:
+      name: stationId
+      in: query
+      required: true
+      description: 'The PWS station identifier (e.g., KCASARAT1). Station IDs are assigned upon registration with Weather Underground''s PWS network.
+
+        '
+      schema:
+        type: string
+        example: KCASARAT1
   securitySchemes:
     apiKey:
       type: apiKey

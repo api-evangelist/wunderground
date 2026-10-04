@@ -61,54 +61,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    format:
-      name: format
-      in: query
-      required: false
-      description: Response format. Only JSON is currently supported.
-      schema:
-        type: string
-        enum:
-        - json
-        default: json
-    units:
-      name: units
-      in: query
-      required: false
-      description: 'Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)
-
-        '
-      schema:
-        type: string
-        enum:
-        - e
-        - m
-        - s
-        - h
-        default: m
-        example: e
   schemas:
-    ErrorResponse:
-      type: object
-      description: Error response from the API
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Error code
-                    example: NOT-AUTHORIZED
-                  message:
-                    type: string
-                    description: Human-readable error message
-                    example: Not Authorized
     ForecastResponse:
       type: object
       description: 5-day daily weather forecast response
@@ -272,6 +225,26 @@ components:
           items:
             $ref: '#/components/schemas/ForecastDaypart'
           description: Detailed forecast data for each day part (day/night pairs)
+    ErrorResponse:
+      type: object
+      description: Error response from the API
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                    example: NOT-AUTHORIZED
+                  message:
+                    type: string
+                    description: Human-readable error message
+                    example: Not Authorized
     ForecastDaypart:
       type: object
       description: Forecast data for a specific day part (day or night)
@@ -390,17 +363,44 @@ components:
           example:
           - 12
           - 8
+  parameters:
+    units:
+      name: units
+      in: query
+      required: false
+      description: 'Unit system for measurement values. e = Imperial (English), m = Metric, s = SI (metric with Pa pressure), h = Hybrid (UK)
+
+        '
+      schema:
+        type: string
+        enum:
+        - e
+        - m
+        - s
+        - h
+        default: m
+        example: e
+    format:
+      name: format
+      in: query
+      required: false
+      description: Response format. Only JSON is currently supported.
+      schema:
+        type: string
+        enum:
+        - json
+        default: json
   responses:
-    NotFound:
-      description: 'The requested station ID was not found or has no data for the specified date range.
+    Unauthorized:
+      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
 
         '
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: 'Authentication failed. The API key is missing, invalid, or not authorized for the requested station or endpoint.
+    NotFound:
+      description: 'The requested station ID was not found or has no data for the specified date range.
 
         '
       content:
